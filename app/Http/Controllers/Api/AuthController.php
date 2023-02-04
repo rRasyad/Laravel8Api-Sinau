@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Xp;
 use Carbon\Carbon;
 use App\Helpers\Res;
 use App\Models\User;
@@ -29,8 +30,11 @@ class AuthController extends Controller
             'password'  => Hash::make($request->password),
         ]);
         $data->save();
+        $xp = new Xp(['user_id' => $data->id]);
+        $xp->save();
 
-        $dToken = null; $data = User::find($data->id); //? register without token
+        $data = User::with('xp')->find($data->id);
+        $dToken = null; //? register without token
         // $dToken = $data->createToken('User', ['user']); //? register with token
 
         //?------------------ Response ---------------------
@@ -47,7 +51,7 @@ class AuthController extends Controller
         ]);
 
         $data = User::where('email', $request->emailOrUser)
-            ->orWhere('namaUser', $request->emailOrUser)->with('xp', 'rank')->first();
+            ->orWhere('namaUser', $request->emailOrUser)->with('xp')->first();
 
         if (!$data || !Hash::check($request->password, $data->password)) {
             return response(['message' => 'Bad cred'], Response::HTTP_UNPROCESSABLE_ENTITY);

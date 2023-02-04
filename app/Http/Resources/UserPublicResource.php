@@ -25,7 +25,7 @@ class UserPublicResource extends JsonResource
                 "nama"      => $this->nama,
                 "namaUser"  => $this->namaUser,
                 "joined_at" => Carbon::parse($this->created_at)->format('d F Y'),
-                "liga"      => $this->rank->liga,
+                // "liga"      => $this->rank->liga,
                 "xp"        => $this->xp,
             ]
         ];

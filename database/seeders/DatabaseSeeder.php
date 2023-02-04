@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         // $this->call(StreakSeeder::class);
         // $this->call(RankSeeder::class);
-        // $this->call(XpSeeder::class);
+        $this->call(XpSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

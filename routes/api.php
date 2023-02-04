@@ -29,39 +29,39 @@ use App\Http\Controllers\Api\AchievementController;
 // });
 
 //? Public
-Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('register', [AuthController::class, 'register'])->name('register');//? done with xp
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::get('public-user/{id}', [UserController::class, 'showPublic']);//?OK
 Route::get('avatar/{filename}', [UserController::class, 'getAvatar']);//?OK
-Route::apiResource('ranks', RankController::class)->only(['show']);
 Route::apiResource('xps', XpController::class)->only(['show']);
+Route::apiResource('ranks', RankController::class)->only(['show']);
 Route::apiResource('follows', FollowController::class)->only(['show']);
 
 //? System
+// Route::apiResource('xps', XpController::class)->only(['store']);//! this will be auto created when user created
+Route::delete('reset-dailyxp', [XpController::class, 'resetDaily']);
+Route::delete('reset-weeklyxp', [XpController::class, 'resetWeekly']);
 Route::delete('ranks', [RankController::class, 'reset']);
 Route::apiResource('ranks', RankController::class)->only(['store']);//! must triggered by xp
 Route::apiResource('streaks', StreakController::class)->only(['store']);//! must triggered by xp
-Route::apiResource('xps', XpController::class)->only(['store']);//! this will be auto created when user created
-Route::delete('reset-dailyxp', [XpController::class, 'resetDaily']);
-Route::delete('reset-weeklyxp', [XpController::class, 'resetWeekly']);
 Route::apiResource('follows', FollowController::class)->only(['store']);//! this will be auto created when user created
 
 //? Private
 Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin']], function () {
     Route::apiResource('users', UserController::class)->only(['show', 'destroy']);//?OK
     Route::post('users/{id}', [UserController::class, 'update']);//?OK
-    Route::apiResource('streaks', StreakController::class)->only(['show']);
     Route::apiResource('xps', XpController::class)->only(['update']);
+    Route::apiResource('streaks', StreakController::class)->only(['show']);
     Route::apiResource('follows', FollowController::class)->only(['update']);
 });
 
 //? Admin
 Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () {
     Route::apiResource('users', UserController::class)->only(['index']);
+    Route::apiResource('xps', XpController::class)->only(['index']);
     Route::apiResource('ranks', RankController::class)->only(['index']);
     Route::apiResource('streaks', StreakController::class)->only(['index']);
-    Route::apiResource('xps', XpController::class)->only(['index']);
     Route::apiResource('follows', FollowController::class)->only(['index']);
 });
 
@@ -79,4 +79,3 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('lingots', LingotController::class);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
-
