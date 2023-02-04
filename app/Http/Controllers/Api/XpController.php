@@ -67,15 +67,15 @@ class XpController extends Controller
     public function store(Request $request)
     {
         //?---------- Check Role (Self & Admin) ----------special case
-        if ($request->user()->id != $request->user_id && !$request->user()->tokenCan('admin')) {
-            return response(['message' => 'Access denied!'], Response::HTTP_FORBIDDEN);
-        }
+        // if ($request->user()->id != $request->user_id && !$request->user()->tokenCan('admin')) {
+        //     return response(['message' => 'Access denied!'], Response::HTTP_FORBIDDEN);
+        // }
 
         //?-------------------- Body ---------------------
         $request->validate([
             'user_id'   => 'required|integer|unique:xps,user_id',
             'xpHarian'  => 'nullable|integer',
-            'xpMingguan'=> 'nullable|integer',
+            'xpMingguan' => 'nullable|integer',
             'totalXp'   => 'nullable|integer',
         ]);
 
@@ -94,13 +94,13 @@ class XpController extends Controller
     public function show(Request $request, $id)
     {
         //?---------- Check Role (Self & Admin) ----------
-        if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
-            return response(['message' => 'Access denied!'], Response::HTTP_FORBIDDEN);
-        }
+        // if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
+        //     return response(['message' => 'Access denied!'], Response::HTTP_FORBIDDEN);
+        // }
 
         //?-------------------- Body ---------------------
         // $data = Xp::find($id);
-        $data = Xp::where('user_id',$id)->first();
+        $data = Xp::where('user_id', $id)->first();
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
@@ -129,10 +129,10 @@ class XpController extends Controller
         ]);
 
         // $data = Xp::find($id);
-        $data = Xp::where('user_id',$id);
+        $data = Xp::where('user_id', $id);
         if (!$data) return Res::autoResponse($data, 'UF'); //? data not found
 
-        $data->update($request->all());
+        $data->update($request->except(['user_id']));
         return Res::autoResponse($data->get(), 'US');
     }
 
@@ -150,7 +150,7 @@ class XpController extends Controller
 
         //?-------------------- Body ---------------------
         // $data = Xp::find($id);
-        $data = Xp::where('user_id',$id);
+        $data = Xp::where('user_id', $id);
         if (!$data) return Res::autoResponse($data, 'DF'); //? data not found
 
         $data->delete();
@@ -158,10 +158,8 @@ class XpController extends Controller
     }
     public function resetDaily()
     {
-
     }
     public function resetWeekly()
     {
-
     }
 }

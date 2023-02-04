@@ -30,7 +30,7 @@ class UserController extends Controller
         // }
 
         //?-------------------- Body ---------------------
-        $data = User::with('xp', 'rank');
+        $data = User::with('xp');
         // $data = User::all('id','role');
         if ($request->s) {
             $data = $data->where('id', $request->s)
@@ -87,8 +87,8 @@ class UserController extends Controller
         // $data = User::find($id)->with('xp')->first();
         // $data = User::find($id)->xp()->first();
         // $data = User::with('xp')->find($id)->first();
-        // $data = User::where('id', $id)->with('xp', 'rank')->first();
-        $data = User::find($id,['avatar']);
+        $data = User::where('id', $id)->with('xp')->first();
+        // $data = User::find($id,['avatar']);
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
@@ -100,7 +100,7 @@ class UserController extends Controller
         //?-------------------- Body ---------------------
         // $data = User::where('id', $id)->with('xp', 'rank')->first();//! kurang achievement
         // $data = User::with('xp', 'rank')->find($id);
-        $data = User::with('xp', 'rank')->find($id);
+        $data = User::with('xp')->find($id);
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
