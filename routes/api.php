@@ -1,7 +1,17 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\XpController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RankController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\QuestController;
+use App\Http\Controllers\Api\StudyController;
+use App\Http\Controllers\Api\FollowController;
+use App\Http\Controllers\Api\LingotController;
+use App\Http\Controllers\Api\StreakController;
+use App\Http\Controllers\Api\UnitStudyController;
+use App\Http\Controllers\Api\AchievementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< Updated upstream
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
