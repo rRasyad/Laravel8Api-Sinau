@@ -121,19 +121,41 @@ class XpController extends Controller
         }
 
         //?-------------------- Body ---------------------
+        // $request->validate([
+        //     'user_id'   => 'nullable|integer|unique:xps,user_id',
+        //     'xpHarian'  => 'nullable|integer',
+        //     'xpMingguan'=> 'nullable|integer',
+        //     'totalXp'   => 'nullable|integer',
+        // ]);
         $request->validate([
-            'user_id'   => 'nullable|integer|unique:xps,user_id',
-            'xpHarian'  => 'nullable|integer',
-            'xpMingguan'=> 'nullable|integer',
-            'totalXp'   => 'nullable|integer',
+            'xpDitambahkan'  => 'nullable|integer'
         ]);
 
         // $data = Xp::find($id);
-        $data = Xp::where('user_id', $id);
+        $raw = Xp::where('user_id', $id);
+        $data = $raw->first();
         if (!$data) return Res::autoResponse($data, 'UF'); //? data not found
 
-        $data->update($request->except(['user_id']));
-        return Res::autoResponse($data->get(), 'US');
+        $xpHarian = $data->xpHarian + $request->xpDitambahkan;
+        $xpMingguan = $data->xpMingguan + $request->xpDitambahkan;
+        $totalXp = $data->totalXp + $request->xpDitambahkan;
+        // $data->xpHarian += $request->xpDitambahkan;
+        // $data->xpMingguan += $request->xpDitambahkan;
+        // $data->totalXp += $request->xpDitambahkan;
+        // $data->save();
+        // $data->update([
+        //     'xpHarian' => $xpHarian,
+        //     'xpMingguan' => $xpMingguan,
+        //     'totalXp' => $totalXp
+        // ]);
+        $data = $raw->update([
+            'xpHarian' => $xpHarian,
+            'xpMingguan' => $xpMingguan,
+            'totalXp' => $totalXp
+        ]);
+        return Res::autoResponse($data, 'US');
+        // $data->update($request->except(['user_id']));
+        // return Res::autoResponse($data->get(), 'US');
     }
 
     /**
@@ -158,8 +180,14 @@ class XpController extends Controller
     }
     public function resetDaily()
     {
+        $data = Xp::whereNotNull('xpHarian')->update(['xpHarian' => 0]);
+        if (!$data) return Res::autoResponse($data, 'UF'); //? data not found
+        return Res::autoResponse($data, 'RS');
     }
     public function resetWeekly()
     {
+        $data = Xp::whereNotNull('xpMingguan')->update(['xpMingguan' => 0]);
+        if (!$data) return Res::autoResponse($data, 'UF'); //? data not found
+        return Res::autoResponse($data, 'RS');
     }
 }

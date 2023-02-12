@@ -40,21 +40,17 @@ Route::apiResource('follows', FollowController::class)->only(['show']);
 
 //? System
 // Route::apiResource('xps', XpController::class)->only(['store']);//! this will be auto created when user created
-Route::delete('reset-dailyxp', [XpController::class, 'resetDaily']);
-Route::delete('reset-weeklyxp', [XpController::class, 'resetWeekly']);
+Route::get('reset-dailyxp', [XpController::class, 'resetDaily']);
+Route::get('reset-weeklyxp', [XpController::class, 'resetWeekly']);
 
 Route::get('symlink', function () {
-    $target = __DIR__.'../storage/app/public';
-    // $target = $_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
-    // $link = $_SERVER['DOCUMENT_ROOT'].'/storage';
-
-    // $target =$_SERVER['DOCUMENT_ROOT'].'/../laravel8api-sinau/storage/app/public';
-    $link = $_SERVER['DOCUMENT_ROOT'].'/storage';
-    symlink($target, $link);
-    // \Illuminate\Support\Facades\Artisan::call('storage:link');
-    echo "Done";
-    // echo public_path();
-    // echo $target.'           '.$link;
+    $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/laravel8api-sinau/storage";
+    $link = $_SERVER['DOCUMENT_ROOT'] . "/../api.sinau-bahasa.my.id/storage";
+    if (symlink($target, $link)) {
+        echo "OK.";
+    } else {
+        echo "Gagal.";
+    }
 });
 
 Route::delete('ranks', [RankController::class, 'reset']);
