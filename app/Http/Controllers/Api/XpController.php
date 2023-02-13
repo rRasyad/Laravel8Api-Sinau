@@ -7,6 +7,7 @@ use App\Helpers\Res;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PaginateResource;
+use App\Http\Controllers\Api\StreakController;
 use Symfony\Component\HttpFoundation\Response;
 
 class XpController extends Controller
@@ -136,6 +137,8 @@ class XpController extends Controller
         $data = $raw->first();
         if (!$data) return Res::autoResponse($data, 'UF'); //? data not found
 
+        $streak = StreakController::autoStore($id);
+
         $xpHarian = $data->xpHarian + $request->xpDitambahkan;
         $xpMingguan = $data->xpMingguan + $request->xpDitambahkan;
         $totalXp = $data->totalXp + $request->xpDitambahkan;
@@ -153,7 +156,13 @@ class XpController extends Controller
             'xpMingguan' => $xpMingguan,
             'totalXp' => $totalXp
         ]);
-        return Res::autoResponse($data, 'US');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success Update',
+            'data' => Xp::where('user_id', $id)->first(),
+            'status streak' => $streak,
+        ]);
+        // return Res::autoResponse($data, 'US');
         // $data->update($request->except(['user_id']));
         // return Res::autoResponse($data->get(), 'US');
     }

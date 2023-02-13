@@ -71,9 +71,9 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin']], function 
 Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () {
     Route::apiResource('users', UserController::class)->only(['index']);
     Route::apiResource('xps', XpController::class)->only(['index']);
-    Route::apiResource('ranks', RankController::class)->only(['index']);
     Route::apiResource('streaks', StreakController::class)->only(['index']);
     Route::apiResource('follows', FollowController::class)->only(['index']);
+    Route::apiResource('ranks', RankController::class)->only(['index']);
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
