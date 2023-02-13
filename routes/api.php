@@ -29,12 +29,12 @@ use App\Http\Controllers\Api\AchievementController;
 // });
 
 //? Public
-Route::post('register', [AuthController::class, 'register'])->name('register');//? done with xp
+Route::post('register', [AuthController::class, 'register'])->name('register'); //? done with xp
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
-Route::get('public-user/{id}', [UserController::class, 'showPublic']);//?OK
-Route::get('avatar/{filename}', [UserController::class, 'getAvatar']);//?OK
-Route::apiResource('xps', XpController::class)->only(['show']);
+Route::get('public-user/{id}', [UserController::class, 'showPublic']); //?OK
+Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
+Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
 Route::apiResource('ranks', RankController::class)->only(['show']);
 Route::apiResource('follows', FollowController::class)->only(['show']);
 
@@ -54,15 +54,15 @@ Route::get('symlink', function () {
 });
 
 Route::delete('ranks', [RankController::class, 'reset']);
-Route::apiResource('ranks', RankController::class)->only(['store']);//! must triggered by xp
-Route::apiResource('streaks', StreakController::class)->only(['store']);//! must triggered by xp
-Route::apiResource('follows', FollowController::class)->only(['store']);//! this will be auto created when user created
+Route::apiResource('ranks', RankController::class)->only(['store']); //! must triggered by xp
+Route::apiResource('streaks', StreakController::class)->only(['store']); //! must triggered by xp
+Route::apiResource('follows', FollowController::class)->only(['store']); //! this will be auto created when user created
 
 //? Private
 Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin']], function () {
-    Route::apiResource('users', UserController::class)->only(['show', 'destroy']);//?OK
-    Route::post('users/{id}', [UserController::class, 'update']);//?OK
-    Route::apiResource('xps', XpController::class)->only(['update']);
+    Route::apiResource('users', UserController::class)->only(['show', 'destroy']); //?OK
+    Route::post('users/{id}', [UserController::class, 'update']); //?OK
+    Route::apiResource('xps', XpController::class)->only(['update']); //?OK
     Route::apiResource('streaks', StreakController::class)->only(['show']);
     Route::apiResource('follows', FollowController::class)->only(['update']);
 });
