@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Api\XpController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RankController;
@@ -47,6 +48,14 @@ Route::get('symlink', function () {
     $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/laravel8api-sinau/storage";
     $link = $_SERVER['DOCUMENT_ROOT'] . "/../api.sinau-bahasa.my.id/storage";
     if (symlink($target, $link)) {
+        echo "OK.";
+    } else {
+        echo "Gagal.";
+    }
+});
+
+Route::get('slinks', function () {
+    if (Artisan::call('storage:link')) {
         echo "OK.";
     } else {
         echo "Gagal.";

@@ -11,7 +11,7 @@ class Res
     public const MSGA_FETCHED_FAIL = ['Data failed to fetch!', Response::HTTP_BAD_REQUEST];
     public const MSGA_ADDED_SUCCESS = ['Data successfully added!', Response::HTTP_CREATED];
     public const MSGA_ADDED_FAIL = ['Data failed to add!', Response::HTTP_UNPROCESSABLE_ENTITY];
-    public const MSGA_FOUND = ['Data found!', Response::HTTP_FOUND];
+    public const MSGA_FOUND = ['Data found!', Response::HTTP_OK];
     public const MSGA_NOT_FOUND = ['Data not found!', Response::HTTP_NOT_FOUND];
     public const MSGA_UPDATED_SUCCESS = ['Data updated successfully!', Response::HTTP_OK];
     public const MSGA_UPDATED_FAIL = ['Data failed to update!', Response::HTTP_NOT_FOUND];

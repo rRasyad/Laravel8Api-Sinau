@@ -125,10 +125,39 @@ class UserController extends Controller
         // return response()->file($pathToFile, $headers); //? referensi
 
         //?------------------------ works alt 2
-        if (!Storage::exists('images/avatars/' . $filename)) {
+        // if (!Storage::exists('images/avatars/' . $filename)) {
+        //     return Respon::make('File not found!', Res::MSGA_NOT_FOUND[1]);
+        // }
+        // if (!file_exists(public_path() . "\\storage\\images\\avatars\\" . $filename)) {
+        //     return Respon::make('File not found!', Res::MSGA_NOT_FOUND[1]);
+        // }
+        // $storagePath = public_path() . "\\storage\\images\\avatars\\" . $filename;
+        // echo public_path();
+        // return Image::make($storagePath)->resize(460, 460)->response();
+
+        //?------------------------ Check file exist | manual method | Web Version
+        // $storagePath = $_SERVER['DOCUMENT_ROOT'] . "/storage/images/avatars/" . $filename;
+        // if (!file_exists($storagePath)) {
+        //     return Respon::make('File not found!', Res::MSGA_NOT_FOUND[1]);
+        // }
+        // echo $storagePath;
+
+        //?------------------------ Check file exist | Storage method | Web Version
+        if (!Storage::disk('image')->exists('avatars/' . $filename)) {
             return Respon::make('File not found!', Res::MSGA_NOT_FOUND[1]);
         }
-        $storagePath = public_path() . "\\storage\\images\\avatars\\" . $filename;
+        // echo Storage::disk('image')->path('avatars/28_1676401588.png');
+        // $storagePath = Storage::disk('image')->path('avatars/' . $filename);
+        $storagePath = Storage::path('images/avatars/' . $filename);
+        // echo $storagePath;
+
+        //?------------------------ Conclusion --------------------------------
+        //? disk('disk_name') to custom where file location
+        //? If we use Storage we can set disk location in config/filesystem.php
+
+        //? public_path() => /home/sinausch/project/laravel8api-sinau/public
+        //? (this is laravel8api-sinau project folder)
+
         return Image::make($storagePath)->resize(460, 460)->response();
     }
 
@@ -159,17 +188,42 @@ class UserController extends Controller
 
         $data->update($request->except(['avatar']));
         if ($request->file('avatar')) {
+            //?------------------------ Work on Local
+            // if ($data->avatar != null) {
+            //     $file_old = public_path() . "\\storage\\images\\avatars\\" . $data->avatar;
+            //     unlink($file_old);
+            // }
+            // $extension = $request->file('avatar')->getClientOriginalExtension();
+            // // $filenameWithExt = $request->file('avatar')->getClientOriginalName();
+            // // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // // $avatar = $filename.'_'.time().'.'.$extension;
+            // $avatar = $id . '_' . time() . '.' . $extension;
+            // $request->file('avatar')->storeAs('images/avatars', $avatar);
+            // $data->avatar = $avatar;
+
+            //?------------------------ Work on Web
+            // $path = $_SERVER['DOCUMENT_ROOT'] . "/storage/images/avatars/";
+            // $path = "/images/avatars/"; //?for public
             if ($data->avatar != null) {
-                $file_old = public_path() . "\\storage\\images\\avatars\\" . $data->avatar;
-                unlink($file_old);
+                $just_name = explode("/", $data->avatar);
+                // if (file_exists($path . $just_name[5])) {
+                //     echo 'this is exist';
+                //     $file_old = $path . $just_name[5];
+                //     unlink($file_old);
+                // }
+                if (Storage::disk('image')->exists('avatars/' . $just_name[5])) {
+                    // echo 'this is exist';
+                    $file_old = Storage::path('images/avatars/' . $just_name[5]);
+                    unlink($file_old);
+                    // echo $file_old;
+                }
             }
+
+            //?------------------------ Work on Web
             $extension = $request->file('avatar')->getClientOriginalExtension();
-            // $filenameWithExt = $request->file('avatar')->getClientOriginalName();
-            // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // $avatar = $filename.'_'.time().'.'.$extension;
-            $avatar = $id . '_' . time() . '.' . $extension;
-            $request->file('avatar')->storeAs('images/avatars', $avatar);
-            $data->avatar = $avatar;
+            $img_name = $id . '_' . time() . '.' . $extension;
+            $request->file('avatar')->storeAs('avatars/', $img_name, 'image');
+            $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
         }
         $data->password = Hash::make($request->password);
         $data->save();
@@ -192,10 +246,20 @@ class UserController extends Controller
         $data = User::find($id);
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
 
+        //?------------------------ Local
+        // if ($data->avatar != null) {
+        //     $file_old = public_path() . "\\storage\\images\\avatars\\" . $data->avatar;
+        //     unlink($file_old);
+        // }
+        //?------------------------ Web
         if ($data->avatar != null) {
-            $file_old = public_path() . "\\storage\\images\\avatars\\" . $data->avatar;
-            unlink($file_old);
+            $just_name = explode("/", $data->avatar);
+            if (Storage::disk('image')->exists('avatars/' . $just_name[5])) {
+                $file_old = Storage::path('images/avatars/' . $just_name[5]);
+                unlink($file_old);
+            }
         }
+
         // $data->tokens()->where('tokenable_id', $data->$id)->delete(); //? alt delete token by userId
         DB::table('personal_access_tokens')->where('tokenable_id', $id)->delete(); //? delete token
         $data->delete();
