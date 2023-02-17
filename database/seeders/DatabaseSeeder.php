@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        $this->call(StreakSeeder::class);
-        // $this->call(RankSeeder::class);
         $this->call(XpSeeder::class);
+        $this->call(StreakSeeder::class);
+        $this->call(FollowSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

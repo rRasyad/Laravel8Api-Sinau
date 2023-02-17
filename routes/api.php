@@ -36,13 +36,14 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::get('public-user/{id}', [UserController::class, 'showPublic']); //?OK
 Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
 Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
+Route::get('following/{id}', [FollowController::class, 'following']); //? Ok
+Route::get('followers/{id}', [FollowController::class, 'followers']); //? Ok
 Route::apiResource('ranks', RankController::class)->only(['show']);
-Route::apiResource('follows', FollowController::class)->only(['show']);
 
 //? System
 // Route::apiResource('xps', XpController::class)->only(['store']);//! this will be auto created when user created
-Route::get('reset-dailyxp', [XpController::class, 'resetDaily']);
-Route::get('reset-weeklyxp', [XpController::class, 'resetWeekly']);
+Route::get('reset-dailyxp', [XpController::class, 'resetDaily']); //?Ok
+Route::get('reset-weeklyxp', [XpController::class, 'resetWeekly']); //?Ok
 
 Route::get('symlink', function () {
     $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/laravel8api-sinau/storage";
@@ -52,7 +53,7 @@ Route::get('symlink', function () {
     } else {
         echo "Gagal.";
     }
-});
+}); //?Ok
 
 Route::get('slinks', function () {
     if (Artisan::call('storage:link')) {
@@ -64,16 +65,17 @@ Route::get('slinks', function () {
 
 Route::delete('ranks', [RankController::class, 'reset']);
 Route::apiResource('ranks', RankController::class)->only(['store']); //! must triggered by xp
-Route::apiResource('streaks', StreakController::class)->only(['store']); //! must triggered by xp
-Route::apiResource('follows', FollowController::class)->only(['store']); //! this will be auto created when user created
+// Route::apiResource('streaks', StreakController::class)->only(['store']); //! must triggered by xp
+// Route::apiResource('follows', FollowController::class)->only(['store']); //! this will be auto created when user created
 
 //? Private
 Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin']], function () {
     Route::apiResource('users', UserController::class)->only(['show', 'destroy']); //?OK
     Route::post('users/{id}', [UserController::class, 'update']); //?OK
     Route::apiResource('xps', XpController::class)->only(['update']); //?OK
-    Route::apiResource('streaks', StreakController::class)->only(['show']);
-    Route::apiResource('follows', FollowController::class)->only(['update']);
+    Route::apiResource('streaks', StreakController::class)->only(['show']); //?Ok
+    Route::get('follow/{id}', [FollowController::class, 'store']); //? Ok
+    Route::get('unfollow/{id}', [FollowController::class, 'destroy']); //? Ok
 });
 
 //? Admin
