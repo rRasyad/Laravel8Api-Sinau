@@ -18,8 +18,8 @@ return new class extends Migration
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('avatar')->nullable();
             $table->string('nama')->nullable();
-            $table->string('namaUser')->unique()->nullable();
-            $table->string('email')->unique();
+            $table->string('namaUser')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             // $table->timestamp("joined_at");
             $table->rememberToken();
