@@ -224,9 +224,12 @@ class UserController extends Controller
             $img_name = $id . '_' . time() . '.' . $extension;
             $request->file('avatar')->storeAs('avatars/', $img_name, 'image');
             $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
+            $data->save();
         }
-        $data->password = Hash::make($request->password);
-        $data->save();
+        if ($request->password) {
+            $data->password = Hash::make($request->password);
+            $data->save();
+        }
         return Res::autoResponse($data, 'US');
     }
 
