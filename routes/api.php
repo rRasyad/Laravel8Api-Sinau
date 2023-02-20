@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\LingotController;
 use App\Http\Controllers\Api\StreakController;
 use App\Http\Controllers\Api\UnitStudyController;
 use App\Http\Controllers\Api\AchievementController;
+use App\Http\Controllers\Api\ContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,9 @@ Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
 Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
 Route::get('following/{id}', [FollowController::class, 'following']); //? Ok
 Route::get('followers/{id}', [FollowController::class, 'followers']); //? Ok
+// Route::get('content', [ContentController::class, 'content']);
+Route::get('content', [ContentController::class, 'content']); //? Ok
+// Route::post('calculation', [ContentController::class, 'calculation']);
 Route::apiResource('ranks', RankController::class)->only(['show']);
 
 //? System
