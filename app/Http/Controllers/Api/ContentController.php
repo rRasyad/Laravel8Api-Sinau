@@ -5,20 +5,32 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\Res;
 use App\Models\Soal;
 use App\Models\Jawaban;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ContentResource;
+use App\Models\Unit;
+use Facade\FlareClient\Http\Response;
 
 class ContentController extends Controller
 {
+    public function mapel(Request $request)
+    {
+        $mapel = Str::lower($request->query("mapel"));
+        if(!$mapel) return response()->json('you must fill mapel!');
+        // return response(Unit::where('mapel',$mapel)->get());
+        $data = Unit::where('mapel', $mapel)->with('unitBab')->get();
+        return response()->json($data);
+    }
+
     public function content(Request $request)
     {
         $jenis = $request->jenis;
         if (!$jenis) return response()->json('you must fill jenis content!');
         $unit = $request->unit;
-        if (!$unit) return response()->json('you must fill the id unit content!');
+        if (!$unit) return response()->json('you must fill id unit content!');
         $bab = $request->bab;
-        if (!$bab) return response()->json('you must fill the id bab content!');
+        if (!$bab) return response()->json('you must fill id bab content!');
 
         $soals = Soal::where('jenis', $jenis)
             ->where('unit', $unit)
@@ -65,4 +77,5 @@ class ContentController extends Controller
         // $request->only(['keyword']);
         // $compare = Jawaban::;
     }
+
 }
