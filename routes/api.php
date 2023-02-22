@@ -41,7 +41,6 @@ Route::get('following/{id}', [FollowController::class, 'following']); //? Ok
 Route::get('followers/{id}', [FollowController::class, 'followers']); //? Ok
 // Route::get('content', [ContentController::class, 'content']);
 Route::get('content', [ContentController::class, 'content']); //? Ok
-Route::get('mapel', [ContentController::class, 'mapel']); //? Ok
 // Route::post('calculation', [ContentController::class, 'calculation']);
 Route::apiResource('ranks', RankController::class)->only(['show']);
 
@@ -81,6 +80,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin']], function 
     Route::apiResource('streaks', StreakController::class)->only(['show']); //?Ok
     Route::get('follow/{id}', [FollowController::class, 'store']); //? Ok
     Route::get('unfollow/{id}', [FollowController::class, 'destroy']); //? Ok
+    Route::get('mapel', [ContentController::class, 'mapel']); //? Ok
 });
 
 //? Admin

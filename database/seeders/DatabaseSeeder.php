@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(JawabanSeeder::class);
         $this->call(UnitSeeder::class);
         $this->call(UnitBabSeeder::class);
+        $this->call(UnitUserSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

@@ -23,8 +23,11 @@ class AuthController extends Controller
             'password'  => 'required|confirmed|min:5|max:20',
         ]);
 
+        if (!$request->nama) $nama = 'user';
+        else $nama = $request->nama;
+
         $data = new User([
-            'nama'      => $request->nama,
+            'nama'      => $nama,
             'namaUser'  => $request->namaUser,
             'email'     => $request->email,
             'password'  => Hash::make($request->password),
