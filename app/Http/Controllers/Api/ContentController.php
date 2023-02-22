@@ -4,22 +4,62 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\Res;
 use App\Models\Soal;
+use App\Models\Unit;
 use App\Models\Jawaban;
+use App\Models\UnitBab;
+use App\Models\UnitUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ContentResource;
-use App\Models\Unit;
 use Facade\FlareClient\Http\Response;
+use App\Http\Resources\ContentResource;
 
 class ContentController extends Controller
 {
+    public function babExist()
+    {
+    }
     public function mapel(Request $request)
     {
         $mapel = Str::lower($request->query("mapel"));
-        if(!$mapel) return response()->json('you must fill mapel!');
+        if (!$mapel) return response()->json('you must fill mapel!');
         // return response(Unit::where('mapel',$mapel)->get());
-        $data = Unit::where('mapel', $mapel)->with('unitBab')->get();
+        // $data = Unit::where('mapel', $mapel)->with('unitBab')->get();
+
+        // $data = $data->map(function ($mapelItem) use($request) {
+        //     return $mapelItem->unit_bab;
+        //     // $mapelItem["unit_bab"]->map(function ($unit) use($request) {
+        //     //     // $unit["isUnlocked"] = (UnitUser::where('unit_id', $unit["id"])::where('user_id', $request->user()->id)::first() != null);
+        //     //     // $unit["isUnlocked"] = "hai";
+        //     //     return $unit;
+        //     // });
+        //     // return $mapelItem;
+        // });
+
+        $units = Unit::where('mapel', $mapel)->get();
+
+        $index = 0;
+        foreach ($units as $unit) {
+            $data[$index]['id'] = $unit->id;
+            $data[$index]['mapel'] = $unit->mapel;
+            $data[$index]['unit'] = $unit->unit;
+            $data[$index]['description'] = $unit->description;
+            $unitBabs = UnitBab::where('unit_id', $unit->unit)->get();
+            $indexBab = 0;
+            foreach ($unitBabs as $unitBab) {
+                $data[$index]['unit_bab'][$indexBab]['id'] = $unitBab->id;
+                $data[$index]['unit_bab'][$indexBab]['url'] = $unitBab->url;
+                $data[$index]['unit_bab'][$indexBab]['icon'] = $unitBab->icon;
+                $userReached = UnitUser::where('bab_id', $unitBab->id)->where('user_id', $request->user()->id)->first();
+                if ($userReached) $isUnlocked = true;
+                else $isUnlocked = false;
+                $data[$index]['unit_bab'][$indexBab]['isUnlocked'] = $isUnlocked;
+                $indexBab++;
+            }
+
+            $index++;
+        }
+
         return response()->json($data);
     }
 
@@ -77,5 +117,4 @@ class ContentController extends Controller
         // $request->only(['keyword']);
         // $compare = Jawaban::;
     }
-
 }
