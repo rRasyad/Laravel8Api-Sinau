@@ -14,11 +14,10 @@ class CreateSoalsTable extends Migration
     public function up()
     {
         Schema::create('soals', function (Blueprint $table) {
-            // $table->id();
+            $table->id();
             $table->enum('jenis', ['ngoko', 'kromo']);
-            $table->integer('unit');
-            $table->integer('bab');
-            $table->string('soal');
+            $table->integer('bab_id');
+            $table->string('isi_soal');
             $table->char('keyword_pattern', 10)->unique();
             // $table->timestamps();
         });

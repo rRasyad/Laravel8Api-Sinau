@@ -8,17 +8,73 @@ use App\Models\Unit;
 use App\Models\Jawaban;
 use App\Models\UnitBab;
 use App\Models\UnitUser;
+use App\Models\SoalSession;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\SoalSelectedSession;
 use App\Http\Controllers\Controller;
 use Facade\FlareClient\Http\Response;
 use App\Http\Resources\ContentResource;
+use Illuminate\Support\Facades\DB;
 
 class ContentController extends Controller
 {
-    public function babExist()
+    public function inisiasi(Request $request, $id)
     {
+        $find = SoalSession::where('user_id', $request->user()->id)->get();
+        foreach ($find as $item) {
+            SoalSelectedSession::where('session_id', $item->id)->delete();
+            $item->delete();
+        }
+
+        SoalSession::create([
+            'user_id' => $request->user()->id,
+            'bab_id' => $id,
+            'session_max' => 10,
+            'session_current' => 0,
+            'session_expire' => now()->addHour(1)
+        ]);
+
+        return response()->json(['message' => 'ok'], 200);
     }
+
+    public function nextSession(Request $request)
+    {
+        $currentSession = SoalSession::where("user_id", $request->user()->id)->first();
+
+        if (!$currentSession) {
+            return response()->json(['message' => 'session not found'], 404);
+        }
+
+        if ($currentSession["session_expire"] <= now()) {
+            return response()->json(['message' => 'your session has expired'], 400);
+        }
+
+        if ($currentSession["session_current"] >= $currentSession["session_max"]) {
+            return response()->json(['message' => 'session ends'], 200);
+        }
+
+        $currentSession["session_current"] = $currentSession["session_current"] + 1;
+        $currentSession->save();
+
+        // $soals = Soal::where('bab_id', $currentSession["bab_id"])->join('soal_selected_sessions', 'soal_selected_sessions.soal_id', '!=', 'soals.id')->get();
+        $soals = Soal::where('bab_id', $currentSession["bab_id"])->leftJoin('soal_selected_sessions', 'soal_selected_sessions.soal_id', '=', 'soals.id')->whereNull('soal_selected_sessions.session_id')->get();
+
+        if (!$soals) {
+            // error_log($soals);
+            return response()->json(['message' => 'content not found'], 500);
+        }
+
+        // error_log($soals);
+        // return response()->json($soals);
+
+        SoalSelectedSession::create([
+            'session_id' => $currentSession["id"],
+            'soal_id' => $soals->random()['id'],
+        ]);
+        return response()->json(['message' => 'next session'], 200);
+    }
+
     public function mapel(Request $request)
     {
         $mapel = Str::lower($request->query("mapel"));

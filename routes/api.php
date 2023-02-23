@@ -34,7 +34,9 @@ use App\Http\Middleware\AfterMiddleware;
 //? Public
 Route::post('register', [AuthController::class, 'register'])->name('register'); //? done with xp
 Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('unauthorized', function () {return response('Unauthenticated', 401);})->name('unauthorized');
+Route::get('unauthorized', function () {
+    return response('Unauthenticated', 401);
+})->name('unauthorized');
 
 Route::get('public-user/{id}', [UserController::class, 'showPublic']); //?OK
 Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
@@ -64,6 +66,8 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin', 'after.midd
     Route::get('unfollow/{id}', [FollowController::class, 'destroy']); //? Ok
     Route::get('mapel', [ContentController::class, 'mapel']); //? Ok
     Route::get('quest', [QuestController::class, 'quest']); //? Ok
+    Route::get('inisiasi-session/{id}', [ContentController::class, 'inisiasi']);
+    Route::get('next-soal', [ContentController::class, 'nextSession']);
 });
 
 //? Admin

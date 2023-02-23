@@ -23,9 +23,9 @@ class SoalSeeder extends Seeder
         for ($i=0; $i < count($nbab1); $i++) {
             Soal::factory()->create([
                 'jenis' => array_keys($soal)[0],
-                'unit' => (int)array_keys($ngoko)[0],
-                'bab' => (int)array_keys($nunit1)[0],
-                'soal' => $nbab1[$i][0],
+                // 'unit' => (int)array_keys($ngoko)[0],
+                'bab_id' => (int)array_keys($nunit1)[0],
+                'isi_soal' => $nbab1[$i][0],
                 'keyword_pattern' => $nbab1[$i][2],
             ]);
         }
@@ -35,9 +35,9 @@ class SoalSeeder extends Seeder
         for ($i=0; $i < count($nbab2); $i++) {
             Soal::factory()->create([
                 'jenis' => array_keys($soal)[0],
-                'unit' => (int)array_keys($ngoko)[0],
-                'bab' => (int)array_keys($nunit1)[1],
-                'soal' => $nbab2[$i][0],
+                // 'unit' => (int)array_keys($ngoko)[0],
+                'bab_id' => (int)array_keys($nunit1)[1],
+                'isi_soal' => $nbab2[$i][0],
                 'keyword_pattern' => $nbab2[$i][1],
             ]);
         }
@@ -47,9 +47,9 @@ class SoalSeeder extends Seeder
         for ($i=0; $i < count($nbab3); $i++) {
             Soal::factory()->create([
                 'jenis' => array_keys($soal)[0],
-                'unit' => (int)array_keys($ngoko)[0],
-                'bab' => (int)array_keys($nunit1)[2],
-                'soal' => $nbab3[$i][0],
+                // 'unit' => (int)array_keys($ngoko)[0],
+                'bab_id' => (int)array_keys($nunit1)[2],
+                'isi_soal' => $nbab3[$i][0],
                 'keyword_pattern' => $nbab3[$i][1],
             ]);
         }
@@ -61,9 +61,9 @@ class SoalSeeder extends Seeder
         for ($i=0; $i < count($kbab1); $i++) {
             Soal::factory()->create([
                 'jenis' => array_keys($soal)[1],
-                'unit' => (int)array_keys($kromo)[0],
-                'bab' => (int)array_keys($kunit1)[0],
-                'soal' => $kbab1[$i][0],
+                // 'unit' => (int)array_keys($kromo)[0],
+                'bab_id' => (int)array_keys($kunit1)[0],
+                'isi_soal' => $kbab1[$i][0],
                 'keyword_pattern' => $kbab1[$i][2],
             ]);
         }
@@ -73,9 +73,9 @@ class SoalSeeder extends Seeder
         for ($i=0; $i < count($kbab2); $i++) {
             Soal::factory()->create([
                 'jenis' => array_keys($soal)[1],
-                'unit' => (int)array_keys($kromo)[0],
-                'bab' => (int)array_keys($kunit1)[1],
-                'soal' => $kbab2[$i][0],
+                // 'unit' => (int)array_keys($kromo)[0],
+                'bab_id' => (int)array_keys($kunit1)[1],
+                'isi_soal' => $kbab2[$i][0],
                 'keyword_pattern' => $kbab2[$i][1],
             ]);
         }

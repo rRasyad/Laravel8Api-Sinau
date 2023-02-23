@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJawabansTable extends Migration
+class CreateSoalSelectedSessionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateJawabansTable extends Migration
      */
     public function up()
     {
-        Schema::create('jawabans', function (Blueprint $table) {
-            // $table->id();
-            $table->foreignId('id_soal')->constrained('soals');
-            $table->string('word');
-            $table->char('keyword', 10)->unique();
-            // $table->timestamps();
+        Schema::create('soal_selected_sessions', function (Blueprint $table) {
+            $table->foreignId('soal_id')->constrained('soals','id');
+            $table->foreignId('session_id')->constrained('soal_sessions','id');
         });
     }
 
@@ -29,6 +26,6 @@ class CreateJawabansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jawabans');
+        Schema::dropIfExists('soal_selected_sessions');
     }
 }

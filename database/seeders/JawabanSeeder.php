@@ -18,18 +18,16 @@ class JawabanSeeder extends Seeder
         $bab1_kromo = Dictionary::vocab['kromo']['1'];
         for ($i = 0; $i < count($bab1_kromo); $i++) {
             Jawaban::factory()->create([
-                'id_unit'    => array_keys(Dictionary::vocab['kromo'])[0],
-                'jawa'      => $bab1_kromo[$i][0],
-                'indo'      => $bab1_kromo[$i][1],
+                'id_soal'    => array_keys(Dictionary::vocab['kromo'])[0],
+                'word'      => $bab1_kromo[$i][0],
                 'keyword' => $bab1_kromo[$i][2],
             ]);
         }
         $bab1_ngoko = Dictionary::vocab['ngoko']['1'];
         for ($i = 0; $i < count($bab1_ngoko); $i++) {
             Jawaban::factory()->create([
-                'id_unit' => array_keys(Dictionary::vocab['ngoko'])[0],
-                'jawa' => $bab1_ngoko[$i][0],
-                'indo' => $bab1_ngoko[$i][1],
+                'id_soal' => array_keys(Dictionary::vocab['ngoko'])[0],
+                'word'      => $bab1_ngoko[$i][0],
                 'keyword' => $bab1_ngoko[$i][2],
             ]);
         }
