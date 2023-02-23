@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call(UnitSeeder::class);
         $this->call(UnitBabSeeder::class);
         $this->call(UnitUserSeeder::class);
+        $this->call(AchievementSeeder::class);
+        $this->call(AchievUserSeeder::class);
+        $this->call(QuestSeeder::class);
+        $this->call(QuestUserSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
