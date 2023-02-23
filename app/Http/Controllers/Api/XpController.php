@@ -114,14 +114,15 @@ class XpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //?---------- Check Role (Self & Admin) ----------
-        if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
-            return response(['message' => 'Access denied!'], 403);
-        }
+        // if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
+        //     return response(['message' => 'Access denied!'], 403);
+        // }
 
         //?-------------------- Body ---------------------
+        $id = $request->user()->id;
         // $request->validate([
         //     'user_id'   => 'nullable|integer|unique:xps,user_id',
         //     'xpHarian'  => 'nullable|integer',
