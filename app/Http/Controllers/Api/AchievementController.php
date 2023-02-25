@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\AchievUser;
+use App\Models\AchievementUser;
 use App\Models\Achievement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +21,7 @@ class AchievementController extends Controller
             $data['achievement'][$index]['id'] = $achievement->id;
             $data['achievement'][$index]['achievement_name'] = $achievement->achievement_name;
             $data['achievement'][$index]['description'] = $achievement->description;
-            $achievReached = AchievUser::where('user_id', $id)->where('achiev_id', $achievement->id)->first();
+            $achievReached = AchievementUser::where('user_id', $id)->where('achievement_id', $achievement->id)->first();
             $data['achievement'][$index]['isUnlocked'] = ($achievReached) ? true : false;
 
             $index++;
