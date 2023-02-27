@@ -16,6 +16,8 @@ class CreateSoalSelectedSessionsTable extends Migration
         Schema::create('soal_selected_sessions', function (Blueprint $table) {
             $table->foreignId('soal_id')->constrained('soals','id');
             $table->foreignId('session_id')->constrained('soal_sessions','id');
+            $table->boolean('benar')->default(true);
+            // $table->integer('benar')->nullable();
         });
     }
 

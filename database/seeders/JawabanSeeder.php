@@ -15,22 +15,43 @@ class JawabanSeeder extends Seeder
      */
     public function run()
     {
-        $bab1_kromo = Dictionary::vocab['kromo']['1'];
-        for ($i = 0; $i < count($bab1_kromo); $i++) {
+        $d = new Dictionary();
+        $bab1 = $d->vocab['1'];
+        for ($i = 0; $i < count($bab1); $i++) {
             Jawaban::factory()->create([
-                'id_soal'    => array_keys(Dictionary::vocab['kromo'])[0],
-                'word'      => $bab1_kromo[$i][0],
-                'keyword' => $bab1_kromo[$i][2],
+                'id_soal' => array_keys($d->vocab)[0],
+                'word'      => $bab1[$i][0],
+                'keyword' => $bab1[$i][2],
             ]);
         }
-        $bab1_ngoko = Dictionary::vocab['ngoko']['1'];
-        for ($i = 0; $i < count($bab1_ngoko); $i++) {
+        $bab2 = $d->vocab['2'];
+        for ($i = 0; $i < count($bab2); $i++) {
             Jawaban::factory()->create([
-                'id_soal' => array_keys(Dictionary::vocab['ngoko'])[0],
-                'word'      => $bab1_ngoko[$i][0],
-                'keyword' => $bab1_ngoko[$i][2],
+                'id_soal' => array_keys($d->vocab)[1],
+                'word'      => $bab2[$i][0],
+                'keyword' => $bab2[$i][2],
             ]);
         }
+
+        //? 2
+        // $bab1_kromo = Dictionary::vocab['kromo']['1'];
+        // for ($i = 0; $i < count($bab1_kromo); $i++) {
+        //     Jawaban::factory()->create([
+        //         'id_soal'    => array_keys(Dictionary::vocab['kromo'])[0],
+        //         'word'      => $bab1_kromo[$i][0],
+        //         'keyword' => $bab1_kromo[$i][2],
+        //     ]);
+        // }
+        // $bab1_ngoko = Dictionary::vocab['ngoko']['1'];
+        // for ($i = 0; $i < count($bab1_ngoko); $i++) {
+        //     Jawaban::factory()->create([
+        //         'id_soal' => array_keys(Dictionary::vocab['ngoko'])[0],
+        //         'word'      => $bab1_ngoko[$i][0],
+        //         'keyword' => $bab1_ngoko[$i][2],
+        //     ]);
+        // }
+
+        //? 1
         // Jawaban::factory()->create([
         //     'id_bab' => 1,
         //     'jawa' => 'Sugeng',

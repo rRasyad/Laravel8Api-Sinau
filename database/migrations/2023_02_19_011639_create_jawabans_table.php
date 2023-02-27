@@ -17,7 +17,8 @@ class CreateJawabansTable extends Migration
             // $table->id();
             $table->foreignId('id_soal')->constrained('soals');
             $table->string('word');
-            $table->char('keyword', 10)->unique();
+            $table->char('keyword', 10);
+            $table->boolean('must_include')->default(1);
             // $table->timestamps();
         });
     }

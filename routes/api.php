@@ -35,9 +35,10 @@ use App\Http\Middleware\AfterMiddleware;
 Route::post('register', [AuthController::class, 'register'])->name('register'); //? done with xp
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::get('unauthorized', function () {
-    return response('Unauthenticated', 401);
+    return response()->json(['message' => 'Unauthenticated'], 401);
 })->name('unauthorized');
 
+Route::get('a', [ContentController::class, 'a']);
 Route::get('public-user/{id}', [UserController::class, 'showPublic']); //?OK
 Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
 Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
@@ -59,15 +60,17 @@ Route::get('reset-weeklyxp', [XpController::class, 'resetWeekly']); //?Ok
 Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin', 'after.middleware']], function () {
     Route::apiResource('users', UserController::class)->only(['show', 'destroy']); //?OK
     Route::post('users/{id}', [UserController::class, 'update']); //?OK
+    Route::post('change-password', [UserController::class, 'changePassword']); //?OK
     // Route::apiResource('xps', XpController::class)->only(['update']); //?OK
-    Route::post('xps', [XpController::class, 'update']); //?OK
+    // Route::post('xps/{id}', [XpController::class, 'update']); //?OK
     Route::apiResource('streaks', StreakController::class)->only(['show']); //?Ok
     Route::get('follow/{id}', [FollowController::class, 'store']); //? Ok
     Route::get('unfollow/{id}', [FollowController::class, 'destroy']); //? Ok
     Route::get('mapel', [ContentController::class, 'mapel']); //? Ok
     Route::get('quest', [QuestController::class, 'quest']); //? Ok
-    Route::get('inisiasi-session/{id}', [ContentController::class, 'inisiasi']);
-    Route::get('next-soal', [ContentController::class, 'nextSession']);
+    // Route::get('inisiasi-session/{id}', [ContentController::class, 'inisiasi']);
+    Route::get('initiation-session', [ContentController::class, 'initiation']); //? Ok
+    Route::get('next-soal', [ContentController::class, 'nextSession']); //? Ok
 });
 
 //? Admin

@@ -12,9 +12,11 @@ class AchievementController extends Controller
     public function achievement(Request $request)
     {
         $id = $request->id;
-        if (!$id) return response()->json('you must fill id id content!');
-
-        $achievements = Achievement::all();
+        if (!$id) return response()->json('you must fill id!');
+        $get = (int)$request->get;
+        ($get)
+        ? $achievements = Achievement::take($get)->get()
+        : $achievements = Achievement::all();
         $index = 0;
         foreach ($achievements as $achievement) {
             $data['user_id'] = $id;

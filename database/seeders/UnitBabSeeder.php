@@ -14,13 +14,16 @@ class UnitBabSeeder extends Seeder
      */
     public function run()
     {
+        $bab = 1;
         for ($a = 1; $a <= 10; $a++) {
             for ($i = 1; $i <= 10; $i++) {
                 UnitBab::factory()->create([
                     'unit_id' => $a,
-                    'url' => '/content?jenis=ngoko&unit=' . $a . '&bab=' . $i,
-                    'icon' => $a . '_' . $i . ".jpg"
+                    // 'url' => '/content?jenis=ngoko&unit=' . $a . '&bab=' . $bab,
+                    'url' => '/initiation-session?bab=' . $bab,
+                    'icon' => $a . '_' . $bab . ".jpg"
                 ]);
+                $bab++;
             }
         }
     }
