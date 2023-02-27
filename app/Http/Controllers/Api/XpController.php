@@ -114,7 +114,7 @@ class XpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         //?---------- Check Role (Self & Admin) ----------
         // if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
@@ -122,7 +122,7 @@ class XpController extends Controller
         // }
 
         //?-------------------- Body ---------------------
-        $id = $request->user()->id;
+        // $id = $request->user()->id;
         // $request->validate([
         //     'user_id'   => 'nullable|integer|unique:xps,user_id',
         //     'xpHarian'  => 'nullable|integer',
@@ -166,6 +166,23 @@ class XpController extends Controller
         // return Res::autoResponse($data, 'US');
         // $data->update($request->except(['user_id']));
         // return Res::autoResponse($data->get(), 'US');
+    }
+    public static function autoUpdate($id, $addxp)
+    {
+        $raw = Xp::where('user_id', $id);
+        $data = $raw->first();
+        $streak = StreakController::autoStore($id);
+        $data = $raw->update([
+            'xpHarian' => $data['xpHarian'] + $addxp,
+            'xpMingguan' => $data['xpMingguan'] + $addxp,
+            'totalXp' => $data['totalXp'] + $addxp
+        ]);
+
+        return [
+            "message" => "Success Update",
+            "xp" => Xp::where('user_id', $id)->first(),
+            "streak" => $streak
+        ];
     }
 
     /**

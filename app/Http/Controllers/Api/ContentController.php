@@ -2,23 +2,140 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Dictionary;
 use App\Helpers\Res;
 use App\Models\Soal;
 use App\Models\Unit;
 use App\Models\Jawaban;
 use App\Models\UnitBab;
 use App\Models\UnitUser;
+use App\Models\SoalSession;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\SoalSelectedSession;
 use App\Http\Controllers\Controller;
 use Facade\FlareClient\Http\Response;
 use App\Http\Resources\ContentResource;
+use App\Helpers\Functions as Func;
 
 class ContentController extends Controller
 {
-    public function babExist()
+    public function a()
     {
+        $dick = new Dictionary;
+        return response()->json($dick->soal["4"]);
     }
+    public function initiation(Request $request)
+    {
+        $bab = $request->bab;
+        if (!$bab) return response()->json('you must fill bab!');
+        $find = SoalSession::where('user_id', $request->user()->id)->get();
+        foreach ($find as $item) {
+            SoalSelectedSession::where('session_id', $item->id)->delete();
+            $item->delete();
+        }
+
+        SoalSession::create([
+            'user_id' => $request->user()->id,
+            'bab_id' => $bab,
+            'session_max' => 10,
+            'session_current' => 0,
+            'session_expire' => now()->addHour(1)
+        ]);
+
+        return response()->json(['message' => 'Initiation Created'], 200);
+    }
+
+    public function nextSession(Request $request)
+    {
+        $currentSession = SoalSession::where("user_id", $request->user()->id)->first();
+
+        if (!$currentSession) {
+            return response()->json(['message' => 'session not found'], 404);
+        }
+
+        if ($currentSession["session_expire"] <= now()) {
+            return response()->json(['message' => 'your session has expired'], 400);
+        }
+
+        $i = 1;
+        if ($request['jawaban'] && $request['id_soal']) {
+
+            // $answ = Soal::where([['id', $request->id_soal], ['keyword_pattern', $request->jawaban]]);
+            $answ = Soal::where('id', $request->id_soal)
+                ->where('keyword_pattern', $request->jawaban)->first();
+            if (!$answ) {
+                $i = 0;
+            }
+            $selected = SoalSelectedSession::where('soal_id', $request->id_soal)
+                ->where('session_id', $currentSession["id"]);
+            // $selected = SoalSelectedSession::where('session_id', $currentSession["id"])->first();
+
+            if ($selected) {
+                $selected->update(["benar" => $i]);
+            }
+
+            $selectedExists = SoalSelectedSession::where('session_id', $currentSession["id"])->get()
+                ->filter(function ($value, $key) {
+                    return ($value->benar == 0);
+                })->count();
+            if ($selectedExists % 2) {
+                $currentSession["session_current"] += 1;
+            }
+        }
+
+        if ($currentSession["session_current"] >= $currentSession["session_max"]) {
+            $get = SoalSelectedSession::where('session_id', $currentSession["id"])->get();
+            $salah = $get->filter(function ($value, $key) {
+                return ($value->benar == 0);
+            })->count();
+            $benar = $get->filter(function ($value, $key) {
+                return ($value->benar == 1);
+            })->count();
+            // error_log($benar);
+            $score = $salah + ($benar * 5);
+            $Xp = XpController::autoUpdate($request->user()->id, $score);
+            return response()
+                ->json(['message' => 'session ends', 'score_akhir' => $score, "Xp" => $Xp], 200);
+        }
+
+        $currentSession["session_current"] = $currentSession["session_current"] + $i;
+        $currentSession->save();
+
+        // $quest = Func::getSoal($currentSession["bab_id"], $currentSession["id"]);
+
+        $soals = Soal::where('bab_id', $currentSession["bab_id"])
+            ->leftJoin('soal_selected_sessions', 'soal_selected_sessions.soal_id', '=', 'soals.id')
+            ->whereNull('soal_selected_sessions.session_id')->get();
+
+        if (!$soals) {
+            return response()->json(['message' => 'content not found'], 500);
+        }
+
+        $soals = $soals->random()['id'];
+        SoalSelectedSession::create([
+            'session_id' => $currentSession["id"],
+            'soal_id' => $soals,
+        ]);
+        // $check = SoalSelectedSession::where('session_id', $id);
+        // if (count($check->get()) === 1) {
+        //     $check->update(["benar" => 2]);
+        // }
+        $quest = Soal::find($soals);
+
+        $key = explode(" ", $quest['keyword_pattern']);
+        $response = [
+            'message' => 'next session',
+            'current_session' => $currentSession['session_current'],
+            'score_before' => ($i == 1) ? 'benar' : 'salah',
+            'Soal' => $quest,
+            'Jawaban' => Jawaban::whereIn('keyword', $key)
+                ->union(Jawaban::inRandomOrder()->take(3))->get()
+        ];
+        return response()->json([$response], 200);
+    }
+
     public function mapel(Request $request)
     {
         $mapel = Str::lower($request->query("mapel"));
@@ -111,10 +228,5 @@ class ContentController extends Controller
             ],
             "data" => $data,
         ]);
-    }
-    public function calculation(Request $request)
-    {
-        // $request->only(['keyword']);
-        // $compare = Jawaban::;
     }
 }

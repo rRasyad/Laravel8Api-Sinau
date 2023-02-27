@@ -16,69 +16,99 @@ class SoalSeeder extends Seeder
     public function run()
     {
         //? [Ngoko] Unit 1 Bab 1 : Susunan 1 kata
-        $soal = Dictionary::soal;
-        $ngoko = $soal['ngoko'];
-        $nunit1 = $ngoko['1'];
-        $nbab1 = $nunit1['1'];
-        for ($i=0; $i < count($nbab1); $i++) {
-            Soal::factory()->create([
-                'jenis' => array_keys($soal)[0],
-                'unit' => (int)array_keys($ngoko)[0],
-                'bab' => (int)array_keys($nunit1)[0],
-                'soal' => $nbab1[$i][0],
-                'keyword_pattern' => $nbab1[$i][2],
-            ]);
-        }
+        // $soal = Dictionary::soal;
+        // $bab1 = Dictionary::soal['1']['1'];
+        // for ($i=0; $i <= count($bab1); $i++) {
+        //     Soal::factory()->create([
+        //         // 'jenis' => array_keys($soal)[0],
+        //         // 'unit' => (int)array_keys($ngoko)[0],
+        //         'bab_id' => (int)array_keys(Dictionary::soal['1'])[0],
+        //         'isi_soal' => $bab1[$i][0],
+        //         'keyword_pattern' => $bab1[$i][2],
+        //     ]);
+        // }
 
-        $nbab2 = $nunit1['2'];
+        $dictionary = new Dictionary();
+        // $bab4 = Dictionary::soal['4'];
+        $bab4 = $dictionary->soal['4'];
         //? [Ngoko] Unit 1 Bab 2 : Susunan 2 Kata
-        for ($i=0; $i < count($nbab2); $i++) {
+        for ($i=0; $i < count($bab4); $i++) {
             Soal::factory()->create([
-                'jenis' => array_keys($soal)[0],
-                'unit' => (int)array_keys($ngoko)[0],
-                'bab' => (int)array_keys($nunit1)[1],
-                'soal' => $nbab2[$i][0],
-                'keyword_pattern' => $nbab2[$i][1],
+                // 'jenis' => array_keys($soal)[0],
+                // 'unit' => (int)array_keys($ngoko)[0],
+                // 'bab_id' => (int)array_keys(Dictionary::soal['1'])[3],
+                'bab_id' => 1,
+                'isi_soal' => $bab4[$i][0],
+                'keyword_pattern' => $bab4[$i][1],
             ]);
         }
 
-        $nbab3 = $nunit1['3'];
-        //? [Ngoko] Unit 1 Bab 3 : Susunan 3 Kata
-        for ($i=0; $i < count($nbab3); $i++) {
-            Soal::factory()->create([
-                'jenis' => array_keys($soal)[0],
-                'unit' => (int)array_keys($ngoko)[0],
-                'bab' => (int)array_keys($nunit1)[2],
-                'soal' => $nbab3[$i][0],
-                'keyword_pattern' => $nbab3[$i][1],
-            ]);
-        }
+        // $nbab3 = $nunit1['3'];
+        // //? [Ngoko] Unit 1 Bab 3 : Susunan 3 Kata
+        // for ($i=0; $i < count($nbab3); $i++) {
+        //     Soal::factory()->create([
+        //         'jenis' => array_keys($soal)[0],
+        //         // 'unit' => (int)array_keys($ngoko)[0],
+        //         'bab_id' => (int)array_keys($nunit1)[2],
+        //         'isi_soal' => $nbab3[$i][0],
+        //         'keyword_pattern' => $nbab3[$i][1],
+        //     ]);
+        // }
 
-        $kromo = $soal['kromo'];
-        $kunit1 = $kromo['1'];
-        $kbab1 = $kunit1['1'];
-        //? [Kromo] Unit 1 Bab 1 : Susunan 1 kata
-        for ($i=0; $i < count($kbab1); $i++) {
-            Soal::factory()->create([
-                'jenis' => array_keys($soal)[1],
-                'unit' => (int)array_keys($kromo)[0],
-                'bab' => (int)array_keys($kunit1)[0],
-                'soal' => $kbab1[$i][0],
-                'keyword_pattern' => $kbab1[$i][2],
-            ]);
-        }
+        // $bab1 = Dictionary::soal['2']['1'];
+        // //? [Kromo] Unit 1 Bab 1 : Susunan 1 kata
+        // for ($i=0; $i < count($bab1); $i++) {
+        //     Soal::factory()->create([
+        //         // 'jenis' => array_keys($soal)[1],
+        //         // 'unit' => (int)array_keys($kromo)[0],
+        //         'bab_id' => (int)array_keys(Dictionary::soal['2'])[0],
+        //         'isi_soal' => $bab1[$i][0],
+        //         'keyword_pattern' => $bab1[$i][2],
+        //     ]);
+        // }
 
-        $kbab2 = $kunit1['2'];
+        // $bab4 = Dictionary::soal['9'];
+        $bab4 = $dictionary->soal['9'];
         //? [Kromo] Unit 1 Bab 2 : Susunan 2 Kata
-        for ($i=0; $i < count($kbab2); $i++) {
+        for ($i=0; $i < count($bab4); $i++) {
             Soal::factory()->create([
-                'jenis' => array_keys($soal)[1],
-                'unit' => (int)array_keys($kromo)[0],
-                'bab' => (int)array_keys($kunit1)[1],
-                'soal' => $kbab2[$i][0],
-                'keyword_pattern' => $kbab2[$i][1],
+                // 'jenis' => array_keys($soal)[1],
+                // 'unit' => (int)array_keys($kromo)[0],
+                // 'bab_id' => (int)array_keys(Dictionary::soal['2'])[3],
+                'bab_id' => 2,
+                'isi_soal' => $bab4[$i][0],
+                'keyword_pattern' => $bab4[$i][1],
             ]);
         }
+
+        //? 2
+        // $kromo = $soal['kromo'];
+        // $kunit1 = $kromo['1'];
+        // $kbab1 = $kunit1['1'];
+        // //? [Kromo] Unit 1 Bab 1 : Susunan 1 kata
+        // for ($i=0; $i < count($kbab1); $i++) {
+        //     Soal::factory()->create([
+        //         'jenis' => array_keys($soal)[1],
+        //         // 'unit' => (int)array_keys($kromo)[0],
+        //         'bab_id' => (int)array_keys($kunit1)[0],
+        //         'isi_soal' => $kbab1[$i][0],
+        //         'keyword_pattern' => $kbab1[$i][2],
+        //     ]);
+        // }
+
+        // $kbab2 = $kunit1['2'];
+        // //? [Kromo] Unit 1 Bab 2 : Susunan 2 Kata
+        // for ($i=0; $i < count($kbab2); $i++) {
+        //     Soal::factory()->create([
+        //         'jenis' => array_keys($soal)[1],
+        //         // 'unit' => (int)array_keys($kromo)[0],
+        //         'bab_id' => (int)array_keys($kunit1)[1],
+        //         'isi_soal' => $kbab2[$i][0],
+        //         'keyword_pattern' => $kbab2[$i][1],
+        //     ]);
+        // }
+
+        //?1
         // Soal::factory()->create([
         //     'soal' => 'Sugeng enjing',
         //     'bab' => 1,

@@ -14,11 +14,21 @@ class UnitSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 10; $i++) {
+        Unit::factory()->create([
+            'mapel' => 'jawa',
+            'unit' =>  1,
+            'description' => "Salam, Sapaan & Menanyakan Kabar pada sesama"
+        ]);
+        Unit::factory()->create([
+            'mapel' => 'jawa',
+            'unit' => 2,
+            'description' => "Perkenalan diri: Menanyakan Nama, Asal, Tempat Tinggal"
+        ]);
+        for ($i = 3; $i <= 10; $i++) {
             Unit::factory()->create([
                 'mapel' => 'jawa',
                 'unit' => $i,
-                'description' => "Jawa Adalah koentji"
+                'description' => "Materi bahasa jawa"
             ]);
         }
     }

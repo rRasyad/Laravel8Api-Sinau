@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Achievement;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJawabansTable extends Migration
+class CreateAchievementUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +15,9 @@ class CreateJawabansTable extends Migration
      */
     public function up()
     {
-        Schema::create('jawabans', function (Blueprint $table) {
-            // $table->id();
-            $table->foreignId('id_soal')->constrained('soals');
-            $table->string('word');
-            $table->char('keyword', 10);
-            $table->boolean('must_include')->default(1);
+        Schema::create('achievement_user', function (Blueprint $table) {
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Achievement::class);
             // $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateJawabansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jawabans');
+        Schema::dropIfExists('achievement_user');
     }
 }

@@ -161,6 +161,26 @@ class UserController extends Controller
         return Image::make($storagePath)->resize(460, 460)->response();
     }
 
+    public function changePassword(Request $request)
+    {
+        $id = $request->user()->id;
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => "required|min:5|unique:users,password,{$id}",
+        ]);
+        $data = User::find($id);
+
+        if (!Hash::check($request->current_password, $data->password)) {
+            return response()->json(["message" => "password doesn't match!"], 404);
+        }
+        if (Hash::check($request->new_password, $data->password)) {
+            return response()->json(["message" => "password must be different!"], 404);
+        }
+
+        $data->update(["password" => Hash::make($request->new_password)]);
+        return response()->json(["message" => "password changed successfully!"]);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -224,10 +244,6 @@ class UserController extends Controller
             $img_name = $id . '_' . time() . '.' . $extension;
             $request->file('avatar')->storeAs('avatars/', $img_name, 'image');
             $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
-            $data->save();
-        }
-        if ($request->password) {
-            $data->password = Hash::make($request->password);
             $data->save();
         }
         return Res::autoResponse($data, 'US');
