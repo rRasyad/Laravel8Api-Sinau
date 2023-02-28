@@ -17,6 +17,7 @@ class SoalSessionSeeder extends Seeder
         SoalSession::factory()->create([
             'user_id' => 1,
             'bab_id' => 1,
+            'part' => 1,
             'session_max' => 10,
             'session_current' => 0,
             'session_expire' => now()->addHour(1)

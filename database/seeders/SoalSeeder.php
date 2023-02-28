@@ -30,16 +30,31 @@ class SoalSeeder extends Seeder
 
         $dictionary = new Dictionary();
         // $bab4 = Dictionary::soal['4'];
-        $bab4 = $dictionary->soal['4'];
+        $part1 = $dictionary->vocab['1'];
         //? [Ngoko] Unit 1 Bab 2 : Susunan 2 Kata
-        for ($i=0; $i < count($bab4); $i++) {
+        for ($i=0; $i < count($part1); $i++) {
             Soal::factory()->create([
                 // 'jenis' => array_keys($soal)[0],
                 // 'unit' => (int)array_keys($ngoko)[0],
                 // 'bab_id' => (int)array_keys(Dictionary::soal['1'])[3],
                 'bab_id' => 1,
-                'isi_soal' => $bab4[$i][0],
-                'keyword_pattern' => $bab4[$i][1],
+                'part' => 2,
+                'isi_soal' => $part1[$i][0],
+                'keyword_pattern' => $part1[$i][2],
+            ]);
+        }
+
+        $part2 = $dictionary->soal['1'];
+        //? [Ngoko] Unit 1 Bab 2 : Susunan 2 Kata
+        for ($i=0; $i < count($part2); $i++) {
+            Soal::factory()->create([
+                // 'jenis' => array_keys($soal)[0],
+                // 'unit' => (int)array_keys($ngoko)[0],
+                // 'bab_id' => (int)array_keys(Dictionary::soal['1'])[3],
+                'bab_id' => 1,
+                'part' => 2,
+                'isi_soal' => $part2[$i][0],
+                'keyword_pattern' => $part2[$i][1],
             ]);
         }
 
@@ -68,16 +83,31 @@ class SoalSeeder extends Seeder
         // }
 
         // $bab4 = Dictionary::soal['9'];
-        $bab4 = $dictionary->soal['9'];
+        $part1 = $dictionary->vocab['2'];
         //? [Kromo] Unit 1 Bab 2 : Susunan 2 Kata
-        for ($i=0; $i < count($bab4); $i++) {
+        for ($i=0; $i < count($part1); $i++) {
             Soal::factory()->create([
                 // 'jenis' => array_keys($soal)[1],
                 // 'unit' => (int)array_keys($kromo)[0],
                 // 'bab_id' => (int)array_keys(Dictionary::soal['2'])[3],
                 'bab_id' => 2,
-                'isi_soal' => $bab4[$i][0],
-                'keyword_pattern' => $bab4[$i][1],
+                'part' => 2,
+                'isi_soal' => $part1[$i][0],
+                'keyword_pattern' => $part1[$i][2],
+            ]);
+        }
+
+        $part2 = $dictionary->soal['2'];
+        //? [Kromo] Unit 1 Bab 2 : Susunan 2 Kata
+        for ($i=0; $i < count($part2); $i++) {
+            Soal::factory()->create([
+                // 'jenis' => array_keys($soal)[1],
+                // 'unit' => (int)array_keys($kromo)[0],
+                // 'bab_id' => (int)array_keys(Dictionary::soal['2'])[3],
+                'bab_id' => 2,
+                'part' => 2,
+                'isi_soal' => $part2[$i][0],
+                'keyword_pattern' => $part2[$i][1],
             ]);
         }
 

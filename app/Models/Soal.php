@@ -27,4 +27,8 @@ class Soal extends BaseModel
     //         ->union(Jawaban::inRandomOrder()->take(3))
     //         ->get();
     // }
+    public function artiSoal()
+    {
+    return $this->hasMany(SoalArti::class, 'soal_id');
+    }
 }

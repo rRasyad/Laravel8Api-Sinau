@@ -17,8 +17,9 @@ class CreateSoalsTable extends Migration
             $table->id();
             // $table->enum('jenis', ['ngoko', 'kromo']);
             $table->integer('bab_id');
+            $table->integer('part');
             $table->string('isi_soal');
-            $table->char('keyword_pattern', 10)->unique();
+            $table->char('keyword_pattern', 10);
             // $table->timestamps();
         });
     }

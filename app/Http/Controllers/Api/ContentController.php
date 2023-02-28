@@ -30,6 +30,8 @@ class ContentController extends Controller
     {
         $bab = $request->bab;
         if (!$bab) return response()->json('you must fill bab!');
+        $part = $request->part;
+        if (!$part) return response()->json('you must fill part!');
         $find = SoalSession::where('user_id', $request->user()->id)->get();
         foreach ($find as $item) {
             SoalSelectedSession::where('session_id', $item->id)->delete();
@@ -39,6 +41,7 @@ class ContentController extends Controller
         SoalSession::create([
             'user_id' => $request->user()->id,
             'bab_id' => $bab,
+            'part' => $part,
             'session_max' => 10,
             'session_current' => 0,
             'session_expire' => now()->addHour(1)
@@ -105,7 +108,8 @@ class ContentController extends Controller
 
         // $quest = Func::getSoal($currentSession["bab_id"], $currentSession["id"]);
 
-        $soals = Soal::where('bab_id', $currentSession["bab_id"])
+        // $soals = Soal::where('bab_id', $currentSession["bab_id"])
+        $soals = Soal::where([['part', $currentSession["part"]], ['bab_id', $currentSession["part"]]])
             ->leftJoin('soal_selected_sessions', 'soal_selected_sessions.soal_id', '=', 'soals.id')
             ->whereNull('soal_selected_sessions.session_id')->get();
 
@@ -122,7 +126,8 @@ class ContentController extends Controller
         // if (count($check->get()) === 1) {
         //     $check->update(["benar" => 2]);
         // }
-        $quest = Soal::find($soals);
+        $quest = Soal::find($soals)->load('artiSoal');
+        // $quest = Soal::find(39)->load('artiSoal');
 
         $key = explode(" ", $quest['keyword_pattern']);
         $response = [
