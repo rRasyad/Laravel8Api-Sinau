@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestUserSeeder::class);
         $this->call(SoalSessionSeeder::class);
         $this->call(SoalSelectedSessionSeeder::class);
+        $this->call(SoalArtiSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

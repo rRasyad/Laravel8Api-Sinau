@@ -200,13 +200,22 @@ class UserController extends Controller
             'nama'      => 'nullable',
             'namaUser'  => 'nullable|unique:users,namaUser',
             'email'     => 'nullable|email|unique:users,email',
-            'password'  => 'nullable|min:5|max:20'
+            // 'password'  => 'nullable|min:5|max:20'
         ]);
 
         $data = User::find($id);
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
 
-        $data->update($request->except(['avatar']));
+        // $data->update($request->except(['avatar','namaUser']));
+        if (isset($request->nama) && !$request->nama == '') {
+            $data->nama = $request->nama;
+        }
+        if (isset($request->namaUser) && !$request->namaUser == '') {
+            $data->namaUser = $request->namaUser;
+        }
+        if (isset($request->email) && !$request->email == '') {
+            $data->email = $request->email;
+        }
         if ($request->file('avatar')) {
             //?------------------------ Work on Local
             // if ($data->avatar != null) {
@@ -231,9 +240,19 @@ class UserController extends Controller
                 //     $file_old = $path . $just_name[5];
                 //     unlink($file_old);
                 // }
-                if (Storage::disk('image')->exists('avatars/' . $just_name[5])) {
+
+                // //? if use https://api.sinau-bahasa.my.id/api/avatar/
+                // if (Storage::disk('image')->exists('avatars/' . $just_name[5])) {
+                //     // echo 'this is exist';
+                //     $file_old = Storage::path('images/avatars/' . $just_name[5]);
+                //     unlink($file_old);
+                //     // echo $file_old;
+                // }
+
+                //? if use https://api.sinau-bahasa.my.id/storage/
+                    if (Storage::disk('image')->exists('avatars/' . $just_name[4])) {
                     // echo 'this is exist';
-                    $file_old = Storage::path('images/avatars/' . $just_name[5]);
+                    $file_old = Storage::path('images/avatars/' . $just_name[4]);
                     unlink($file_old);
                     // echo $file_old;
                 }
@@ -243,9 +262,10 @@ class UserController extends Controller
             $extension = $request->file('avatar')->getClientOriginalExtension();
             $img_name = $id . '_' . time() . '.' . $extension;
             $request->file('avatar')->storeAs('avatars/', $img_name, 'image');
-            $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
-            $data->save();
+            // $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
+            $data->avatar = 'https://api.sinau-bahasa.my.id/storage/' . $img_name;
         }
+        $data->save();
         return Res::autoResponse($data, 'US');
     }
 
