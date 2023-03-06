@@ -1,0 +1,18 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/sinausch/project/Laravel8Api-Sinau
+    - /bin/cp -r * $DEPLOYPATH #copy all from root
+    # - /bin/cp -r ./public/* $DEPLOYPATH/public_html/
+    # - /bin/cp ./public/js/*.js $DEPLOYPATH/public_html/js
+    # - /bin/cp ./public/css/*.css $DEPLOYPATH/public_html/css
+
+# ---
+# deployment:
+#   tasks:
+#     - export DEPLOYPATH=/home/sinausch/project/laravel8api-sinau2
+#     - /bin/cp index.html $DEPLOYPATH
+#     - /bin/cp style.css $DEPLOYPATH
+
+#     - /bin/cp -R app $DEPLOYPATH
+#     - /bin/cp -R bootstrap $DEPLOYPATH
