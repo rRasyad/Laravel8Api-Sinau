@@ -82,8 +82,8 @@ Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () 
     // Route::apiResource('ranks', RankController::class)->only(['index']);
 
     Route::get('symlink', function () {
-        $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/laravel8api-sinau/storage";
-        $link = $_SERVER['DOCUMENT_ROOT'] . "/../api.sinau-bahasa.my.id/storage";
+        $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/Laravel8Api-Sinau/storage/app/public/images/avatars";
+        $link = $_SERVER['DOCUMENT_ROOT'] . "/../api.sinau-bahasa.my.id/avatars";
         (symlink($target, $link)) ? response("OK.", 200) : response("Gagal.", 404);
     }); //?Ok
 
