@@ -30,7 +30,18 @@ class Dictionary
     //     ],
     // ];
 
+    public $jawaban = [
+        "unit1_part1" => [
+            ['Selamat', '1'], ['Pagi', '2'], ['Siang', '3'], ['Sore', '4'], ['Malam', '5'], ['Datang', '6'], ['Bagaimana', '7'], ['Bagaimana', '8'], ['Kabar', '9'], ['Baik', '10'], ['Terima', '11'], ['Kasih', '12'], ['Baik', '13'], ['Biasa', '14'], ['Saja', '15'], ['Lama', '16'], ['Tidak', '17'], ['Bertemu', '18'], ['Aku', '19'], ['Rindu', '20'], ['Kamu', '21'], ['Ada', '22'], ['Kabar', '23'], ['Apa', '24'], ['Sama-sama', '25'], ['Silahkan', '26'], ['Masuk', '27'],
+            ['Sugeng', '1'], ['Enjing', '2'], ['Siang', '3'], ['Sonten', '4'], ['Ndalu', '5'], ['Rawuh', '6'], ['Pripun', '7'], ['Piye', '8'], ['Kabare', '9'], ['Apik', '10'], ['Matur', '11'], ['Nuwun', '12'], ['Sae', '13'], ['Biasa', '14'], ['Wae', '15'], ['Suwe', '16'], ['Ora', '17'], ['Ketemu', '18'], ['Aku', '19'], ['Kangen', '20'], ['Kowe', '21'], ['Ana', '22'], ['Kabar', '23'], ['Apa', '24'], ['Sami-sami', '25'], ['Mangga', '26'], ['Pinarak', '27']
+        ],
+    ];
+
     public $soal = [
+        "unit1_part1" => [
+            ['Sugeng',  '1'], ['Enjing', '2'], ['Siang', '3'], ['Sonten', '4'], ['Ndalu', '5'], ['Rawuh', '6'], ['Pripun', '7'], ['Piye', '8'], ['Kabare', '9'], ['Apik', '10'], ['Matur', '11'], ['Nuwun', '12'], ['Sae', '13'], ['Biasa', '14'], ['Wae', '15'], ['Suwe', '16'], ['Ora', '17'], ['Ketemu', '18'], ['Aku', '19'], ['Kangen', '20'], ['Kowe', '21'], ['Ana', '22'], ['Kabar', '23'], ['Apa', '24'], ['Sami-sami', '25'], ['Mangga', '26'], ['Pinarak', '27'],
+            ['Selamat', '1'], ['Pagi', '2'], ['Siang', '3'], ['Sore', '4'], ['Malam', '5'], ['Datang', '6'], ['Bagaimana', '7'], ['Bagaimana', '8'], ['Kabar', '9'], ['Baik', '10'], ['Terima', '11'], ['Kasih', '12'], ['Baik', '13'], ['Biasa', '14'], ['Saja', '15'], ['Lama', '16'], ['Tidak', '17'], ['Bertemu', '18'], ['Aku', '19'], ['Rindu', '20'], ['Kamu', '21'], ['Ada', '22'], ['Kabar', '23'], ['Apa', '24'], ['Sama-sama', '25'], ['Silahkan', '26'], ['Masuk', '27'],
+        ],
         "1" => [
             ['Sugeng Enjing', '1 2'], ['Sugeng Siang', '1 3'], ['Sugeng Sonten', '1 4'], ['Sugeng Ndalu', '1 5'], ['Sugeng Rawuh', '1 6'], ['Piye kabare?', '8 9'], ['Pripun kabare?', '7 9'], ['Apik, Matur Suwun', '10 11 12'], ['Sae, Matur Nuwun', '13 11 12'], ['Biasa wae', '14 15'], ['Suwe ora ketemu', '16 17 18'], ['Aku kangen kowe', '19 20 21'], ['Ana kabar apa?', '22 23 24'], ['Sami-sami', '25'], ['Mangga pinarak', '26 27']
         ],
@@ -41,7 +52,10 @@ class Dictionary
 
     public $arti = [
         "1" => [
-            [28, 0, 'Selamat'], [28, 1, 'Pagi'], [29, 0, 'Selamat'], [29, 1, 'Siang'], [30, 0, 'Selamat'], [30, 1, 'Sore'], [31, 0, 'Selamat'], [31, 1, 'Malam'], [32, 0, 'Selamat'], [32, 1, 'Datang'], [32, 0, 'Bagaimana'], [32, 1, 'Kabarnya?'], [33, 0, 'Bagaimana'], [33, 1, 'Kabarnya?'], [34, 0, 'Baik'], [34, 1, 'Terima'], [34, 2, 'Kasih'], [35, 0, 'Baik'], [35, 1, 'Terima'], [35, 2, 'Kasih'], [36, 0, 'Biasa'], [36, 1, 'Saja'], [37, 0, 'Lama'], [37, 1, 'Tidak'], [37, 2, 'Bertemu'], [38, 0, 'Aku'], [38, 1, 'Rindu'], [38, 2, 'Kamu'], [39, 0, 'Ada'], [39, 1, 'Kabar'], [39, 2, 'Apa'], [40, 0, 'Sama-sama'], [41, 0, 'Silahkan'], [41, 1, 'Masuk']
+            [28, 0, 'Selamat'], [28, 1, 'Pagi'], [29, 0, 'Selamat'], [29, 1, 'Siang'], [30, 0, 'Selamat'], [30, 1, 'Sore'], [31, 0, 'Selamat'], [31, 1, 'Malam'], [32, 0, 'Selamat'], [32, 1, 'Datang'], [33, 0, 'Bagaimana'], [33, 1, 'Kabarnya?'], [34, 0, 'Bagaimana'], [34, 1, 'Kabarnya?'], [35, 0, 'Baik'], [35, 1, 'Terima'], [35, 2, 'Kasih'], [36, 0, 'Baik'], [36, 1, 'Terima'], [36, 2, 'Kasih'], [37, 0, 'Biasa'], [37, 1, 'Saja'], [38, 0, 'Lama'], [38, 1, 'Tidak'], [38, 2, 'Bertemu'], [39, 0, 'Aku'], [39, 1, 'Rindu'], [39, 2, 'Kamu'], [40, 0, 'Ada'], [40, 1, 'Kabar'], [40, 2, 'Apa'], [41, 0, 'Sama-sama'], [42, 0, 'Silahkan'], [42, 1, 'Masuk']
+        ],
+        "2" => [
+            [67, 0, 'Permisi'], [67, 1, 'Nama'], [67, 2, 'Saya'], [67, 3, 'Budi'], [68, 0, 'Saya'], [68, 1, 'Lahir'], [68, 2, 'Di'], [68, 3, 'Surabaya'], [69, 0, 'Anda'], [69, 1, 'Dari'], [69, 2, 'Mana?'], [70, 0, 'Nama'], [70, 1, 'Saya'], [70, 2, 'Adi'], [71, 0, 'Nama'], [71, 1, 'Saya'], [71, 2, 'Budi'], [72, 0, 'Umur'], [72, 1, 'Saya'], [72, 2, '16'], [72, 3, 'Tahun'], [73, 0, 'Siapa'], [73, 1, 'Nama'], [73, 2, 'Anda?'], [74, 0, 'Rumah'], [74, 1, '-nya'], [74, 2, 'Anda'], [74, 3, 'Di-'], [74, 4, 'Mana?'], [75, 0, 'Ayah'], [75, 1, 'Di-'], [75, 2, 'Mana?'], [76, 0, 'Ibu'], [76, 1, 'Di-'], [76, 2, 'Mana?'], [77, 0, 'Anda'], [77, 1, 'Lahir'], [77, 2, 'Di-'], [77, 3, 'Mana?'], [78, 0, 'Adi'], [78, 1, 'Ada di'], [78, 2, 'Surabaya'], [79, 0, 'Budi'], [79, 1, 'Ada di'], [79, 2, 'Surabaya'], [80, 0, 'Budi'], [80, 1, 'Di-'], [80, 2, 'Mana?'], [81, 0, 'Adi'], [81, 1, 'Di-'], [81, 2, 'Mana?'], [82, 0, 'Saya'], [82, 1, 'Dari'], [82, 2, 'Surabaya'], [83, 0, 'Nama'], [83, 1, 'Saya'], [83, 2, 'Adi']
         ],
     ];
 

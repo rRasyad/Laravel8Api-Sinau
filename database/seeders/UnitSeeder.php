@@ -24,7 +24,8 @@ class UnitSeeder extends Seeder
             'unit' => 2,
             'description' => "Perkenalan diri: Menanyakan Nama, Asal, Tempat Tinggal"
         ]);
-        for ($i = 3; $i <= 10; $i++) {
+        // TODO Finish Unit and Matter
+        for ($i = 3; $i <= 5; $i++) {
             Unit::factory()->create([
                 'mapel' => 'jawa',
                 'unit' => $i,

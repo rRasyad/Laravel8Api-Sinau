@@ -16,13 +16,23 @@ class SoalArtiSeeder extends Seeder
     public function run()
     {
         $dictionary = new Dictionary();
-        $part1 = $dictionary->arti['1'];
-        //? [Kromo] Unit 1 Bab 2 : Susunan 2 Kata
-        for ($i=0; $i < count($part1); $i++) {
+        $unit1 = $dictionary->arti['1'];
+        //? Unit 1 Part 2
+        for ($i=0; $i < count($unit1); $i++) {
             SoalArti::factory()->create([
-                'soal_id' => $part1[$i][0],
-                'index_soal' => $part1[$i][1],
-                'arti' => $part1[$i][2],
+                'soal_id' => $unit1[$i][0],
+                'index_soal' => $unit1[$i][1],
+                'arti' => $unit1[$i][2],
+            ]);
+        }
+
+        $unit2 = $dictionary->arti['2'];
+        //? Unit 2 Part 2
+        for ($i=0; $i < count($unit2); $i++) {
+            SoalArti::factory()->create([
+                'soal_id' => $unit2[$i][0],
+                'index_soal' => $unit2[$i][1],
+                'arti' => $unit2[$i][2],
             ]);
         }
     }
