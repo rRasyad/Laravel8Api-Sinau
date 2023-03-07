@@ -249,7 +249,7 @@ class UserController extends Controller
                 //     // echo $file_old;
                 // }
 
-                //? if use https://api.sinau-bahasa.my.id/storage/
+                //? if use https://api.sinau-bahasa.my.id/avatar/
                     if (Storage::disk('image')->exists('avatars/' . $just_name[4])) {
                     // echo 'this is exist';
                     $file_old = Storage::path('images/avatars/' . $just_name[4]);
@@ -263,7 +263,7 @@ class UserController extends Controller
             $img_name = $id . '_' . time() . '.' . $extension;
             $request->file('avatar')->storeAs('avatars/', $img_name, 'image');
             // $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
-            $data->avatar = 'https://api.sinau-bahasa.my.id/storage/' . $img_name;
+            $data->avatar = 'https://api.sinau-bahasa.my.id/avatar/' . $img_name;
         }
         $data->save();
         return Res::autoResponse($data, 'US');
