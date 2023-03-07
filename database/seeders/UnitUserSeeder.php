@@ -32,11 +32,18 @@ class UnitUserSeeder extends Seeder
         // }
 
         for ($i = 1; $i <= 28; $i++) {
-            UnitUser::factory()->create([
-                'user_id' => $i,
-                'bab_id' => 1,
-                'reach' => 4,
-            ]);
+            if ($i <= 5) {
+                UnitUser::factory()->create([
+                    'user_id' => $i,
+                    'bab_id' => 1,
+                    'reach' => 4,
+                ]);
+            } else {
+                UnitUser::factory()->create([
+                    'user_id' => $i,
+                    'bab_id' => 1,
+                ]);
+            }
             if ($i <= 5) {
                 for ($b = 2; $b <= 4; $b++) {
                     UnitUser::factory()->create([
