@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/sinausch/project/Laravel8Api-Sinau
+    - export DEPLOYPATH=/home/sinausch/project/Laravel8Api-Sinau/
     - /bin/cp -R * $DEPLOYPATH
