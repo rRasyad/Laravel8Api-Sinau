@@ -17,6 +17,7 @@ class CreateUnitUsersTable extends Migration
             // $table->id();
             $table->integer('user_id');
             $table->integer('bab_id');
+            $table->integer('reach')->default(0);
             // $table->timestamps();
         });
     }

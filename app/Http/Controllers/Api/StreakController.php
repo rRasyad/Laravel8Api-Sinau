@@ -129,24 +129,24 @@ class StreakController extends Controller
         //     'streakBesok'   => 'nullable',
         // ]);
 
-        $dataBefore = Streak::where('user_id', $user_id)
+        $dataAcuan = Streak::where('user_id', $user_id)
             ->latest('tanggalStreak')
             ->first(); //? get data recorded before create a new record
 
-        if (!$dataBefore) {//? if data not found, then create new
+        if (!$dataAcuan) { //? if data not found, then create new
             $data = Streak::create(['user_id' => $user_id]);
             if (!$data) return 'Streak Failed To Add';
             return 'Success, The first day user learns something';
         }
 
-        $dy = (int)$dataBefore->tanggalStreak->format('d'); //? replace variable to only date
-        $dt = (int)Carbon::today()->format('d'); //? replace to today's actual date
-        if ($dy == $dt) return 'Streak already added';
+        $acuan = $dataAcuan->tanggalStreak->format('d'); //? replace variable to only date
+        // FIXED buat hari kemarin dan sekarang
+        if ($acuan === today()->format('d')) return 'Streak already added';
 
-        $dataT = Streak::create(['user_id' => $user_id]);
+        $dataNew = Streak::create(['user_id' => $user_id]);
 
-        if ($dy == $dt - 1) {
-            $dataBefore->update(['streakBesok' => $dataT->id]);
+        if ($acuan === Carbon::yesterday()->format('d')) {
+            $dataAcuan->update(['streakBesok' => $dataNew->id]);
             return 'Success, Streak successfully binded!';
         }
         return 'Success, Streak is Unrelated!';

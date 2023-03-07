@@ -14,11 +14,43 @@ class UnitUserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 10; $i++) {
-            for ($b = 1; $b <= 10; $b++) {
+        // UnitUser::factory()->create([
+        //     'user_id' => 1,
+        //     'bab_id' => 1,
+        //     'reach' => 4,
+        // ]);
+        // UnitUser::factory()->create([
+        //     'user_id' => 1,
+        //     'bab_id' => 2,
+        //     'reach' => 2,
+        // ]);
+        // for ($q = 3; $q <= 10; $q++) {
+        //     UnitUser::factory()->create([
+        //         'user_id' => 1,
+        //         'bab_id' => $q,
+        //     ]);
+        // }
+
+        for ($i = 1; $i <= 28; $i++) {
+            UnitUser::factory()->create([
+                'user_id' => $i,
+                'bab_id' => 1,
+                'reach' => 4,
+            ]);
+            if ($i <= 5) {
+                for ($b = 2; $b <= 4; $b++) {
+                    UnitUser::factory()->create([
+                        'user_id' => $i,
+                        'bab_id' => $b,
+                        'reach' => 4,
+                    ]);
+                }
+            }
+            if ($i == 1) {
                 UnitUser::factory()->create([
-                    'user_id' => $i,
-                    'bab_id' => $b,
+                    'user_id' => 1,
+                    'bab_id' => 5,
+                    'reach' => 2,
                 ]);
             }
         }

@@ -99,8 +99,42 @@ class ContentController extends Controller
             // error_log($benar);
             $score = $salah + ($benar * 5);
             $Xp = XpController::autoUpdate($request->user()->id, $score);
+            $putusan = 'Score kurang dari 40, Xp ditambahkan';
+            if ($score >= 40) {
+                $raw = UnitUser::where([
+                    ['user_id', $request->user()->id],
+                    ['bab_id', $currentSession['bab_id']]
+                ]);
+                $reach = $raw->first();
+                if ($reach->reach >= 4) {
+                    $check = UnitUser::where([
+                        ['user_id', $request->user()->id],
+                        ['bab_id', $currentSession['bab_id'] + 1]
+                    ])->first();
+                    $putusan = 'Dianggap Training, Xp ditambahkan';
+                    if (!$check) {
+                        $unitUser = UnitUser::create([
+                            'user_id' => $request->user()->id,
+                            'bab_id' => $currentSession['bab_id'] + 1
+                        ]);
+                        ($unitUser) ? $putusan = 'Bab ini selesai, Bab baru terbuka'
+                            : $putusan = 'Bab baru gagal terbuka';
+                    }
+                } else {
+                    $unitUser = $raw->update(['reach' => $reach->reach + 1]);
+                    ($unitUser) ? $putusan = 'Stage ditambahkan'
+                        : $putusan = 'Stage gagal ditambahkan';
+                }
+                // error_log($unitUser);
+            }
+            SoalSession::where('user_id', $request->user()->id)->update(['session_expire' => now()]);
             return response()
-                ->json(['message' => 'session ends', 'score_akhir' => $score, "Xp" => $Xp], 200);
+                ->json([
+                    'message' => 'session ends',
+                    'score_akhir' => $score,
+                    "Xp" => $Xp,
+                    "putusan" => $putusan,
+                ], 200);
         }
 
         $currentSession["session_current"] = $currentSession["session_current"] + $i;
@@ -138,7 +172,7 @@ class ContentController extends Controller
             'Jawaban' => Jawaban::whereIn('keyword', $key)
                 ->union(Jawaban::inRandomOrder()->take(3))->get()
         ];
-        return response()->json([$response], 200);
+        return response()->json($response, 200);
     }
 
     public function mapel(Request $request)
@@ -172,9 +206,22 @@ class ContentController extends Controller
                 $data[$index]['unit_bab'][$indexBab]['id'] = $unitBab->id;
                 $data[$index]['unit_bab'][$indexBab]['url'] = $unitBab->url;
                 $data[$index]['unit_bab'][$indexBab]['icon'] = $unitBab->icon;
-                $userReached = UnitUser::where('bab_id', $unitBab->id)->where('user_id', $request->user()->id)->first();
-                if ($userReached) $isUnlocked = true;
-                else $isUnlocked = false;
+                $reach = UnitUser::where('bab_id', $unitBab->id)
+                    ->where('user_id', $request->user()->id)->first();
+                // error_log($reach);
+                if ($reach) {
+                    // $finishstep = $reach->filter(function ($value, $key) {
+                    //     return ($value->reach == 4);
+                    // })->reach;
+                    // $finishstep === 4 ? $isUnlocked = true : $isUnlocked = false;
+                    $reach = $reach['reach'];
+                    $reach ? $isUnlocked = true : $isUnlocked = false;
+                    // $reach ? $isUnlocked = true : $isUnlocked = false;
+                } else {
+                    $reach = null;
+                    $isUnlocked = false;
+                }
+                $data[$index]['unit_bab'][$indexBab]['reach'] = $reach;
                 $data[$index]['unit_bab'][$indexBab]['isUnlocked'] = $isUnlocked;
                 $indexBab++;
             }
