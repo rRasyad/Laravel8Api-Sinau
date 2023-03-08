@@ -16,6 +16,7 @@ class SoalSessionSeeder extends Seeder
     {
         SoalSession::factory()->create([
             'user_id' => 1,
+            'unit_id' => 1,
             'bab_id' => 1,
             'part' => 1,
             'session_max' => 10,

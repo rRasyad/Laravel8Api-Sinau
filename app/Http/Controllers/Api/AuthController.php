@@ -8,6 +8,7 @@ use App\Helpers\Res;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\UnitUser;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,8 +34,8 @@ class AuthController extends Controller
             'password'  => Hash::make($request->password),
         ]);
         $data->save();
-        $xp = new Xp(['user_id' => $data->id]);
-        $xp->save();
+        Xp::create(['user_id' => $data->id]);
+        UnitUser::create(['user_id' => $data->id, 'bab_id' => 1]);
 
         $data = User::with('xp')->find($data->id);
         $dToken = null; //? register without token

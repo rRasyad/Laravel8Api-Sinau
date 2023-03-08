@@ -16,6 +16,7 @@ class CreateSoalSessionsTable extends Migration
         Schema::create('soal_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained('users', 'id')->unique();
+            $table->foreignId("unit_id")->constrained('units', 'id');
             $table->foreignId("bab_id")->constrained('unit_babs', 'id');
             $table->foreignId("part");
             $table->integer("session_max");

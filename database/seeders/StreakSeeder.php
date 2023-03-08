@@ -15,7 +15,7 @@ class StreakSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 28; $i++) {
             $streakBesok = $i * 2;
 
             Streak::factory()->create([
