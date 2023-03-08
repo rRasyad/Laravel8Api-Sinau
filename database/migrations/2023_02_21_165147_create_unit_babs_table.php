@@ -16,6 +16,7 @@ class CreateUnitBabsTable extends Migration
         Schema::create('unit_babs', function (Blueprint $table) {
             $table->id();
             $table->foreignId("unit_id");
+            $table->foreignId("part");
             $table->string("url");
             $table->string("icon");
         });
