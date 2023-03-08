@@ -14,26 +14,38 @@ class AchievementSeeder extends Seeder
      */
     public function run()
     {
-        Achievement::factory()->create([
-            'name' => 'Xp 100',
-            'description' => 'Raih 100 xp untuk pertama kali',
-        ]);
-        Achievement::factory()->create([
-            'name' => 'Xp 200',
-            'description' => 'Raih 200 xp untuk pertama kali',
-        ]);
-        Achievement::factory()->create([
-            'name' => 'Xp 300',
-            'description' => 'Raih 300 xp untuk pertama kali',
-        ]);
-        Achievement::factory()->create([
-            'name' => 'Xp 400',
-            'description' => 'Raih 400 xp untuk pertama kali',
-        ]);
-        Achievement::factory()->create([
-            'name' => 'Xp 500',
-            'description' => 'Raih 500 xp untuk pertama kali',
-        ]);
+        $xp = 200;
+        for ($i = 0; $i < 10; $i++) {
+            Achievement::factory()->create([
+                'name' => 'Xp ' . $xp,
+                'description' => 'Raih ' . $xp . ' xp untuk pertama kali',
+            ]);
+            $xp += 200;
+        }
+
+        //? 2
+        // Achievement::factory()->create([
+        //     'name' => 'Xp 100',
+        //     'description' => 'Raih 100 xp untuk pertama kali',
+        // ]);
+        // Achievement::factory()->create([
+        //     'name' => 'Xp 200',
+        //     'description' => 'Raih 200 xp untuk pertama kali',
+        // ]);
+        // Achievement::factory()->create([
+        //     'name' => 'Xp 300',
+        //     'description' => 'Raih 300 xp untuk pertama kali',
+        // ]);
+        // Achievement::factory()->create([
+        //     'name' => 'Xp 400',
+        //     'description' => 'Raih 400 xp untuk pertama kali',
+        // ]);
+        // Achievement::factory()->create([
+        //     'name' => 'Xp 500',
+        //     'description' => 'Raih 500 xp untuk pertama kali',
+        // ]);
+
+        //? 1
         // Achievement::factory()->create([
         //     'name' => 'Gayang',
         //     'description' => 'Gayang Malaysia',

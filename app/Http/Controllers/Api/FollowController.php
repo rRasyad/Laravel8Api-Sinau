@@ -66,7 +66,7 @@ class FollowController extends Controller
         //     'followers_id'=> 'required|integer',
         //     'following_id'=> 'required|integer',
         // ]);
-        if ($request->user()->id == $id) return Res::autoResponse(null, 'AF');
+        if ($request->user()->id == $id) return Response()->json(['message' => 'id must not same as the current user'], 422);
         $data = Follow::where('followers_id', $request->user()->id)->where('following_id', $id)->first();
         if ($data) return Res::autoResponse($data, 'AF'); //? data not found
 
