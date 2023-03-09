@@ -13,15 +13,15 @@ class AchievementController extends Controller
     {
         $id = $request->id;
         if (!$id) return response()->json('you must fill id!');
-        $get = (int)$request->get;
-        ($get)
-        ? $achievements = Achievement::take($get)->get()
+        $limit = (int)$request->limit;
+        ($limit)
+        ? $achievements = Achievement::take($limit)->get()
         : $achievements = Achievement::all();
         $index = 0;
         foreach ($achievements as $achievement) {
             $data['user_id'] = $id;
             $data['achievement'][$index]['id'] = $achievement->id;
-            $data['achievement'][$index]['achievement_name'] = $achievement->achievement_name;
+            $data['achievement'][$index]['achievement_name'] = $achievement->name;
             $data['achievement'][$index]['description'] = $achievement->description;
             $achievReached = AchievementUser::where('user_id', $id)->where('achievement_id', $achievement->id)->first();
             $data['achievement'][$index]['isUnlocked'] = ($achievReached) ? true : false;
