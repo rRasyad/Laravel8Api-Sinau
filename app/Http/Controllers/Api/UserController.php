@@ -293,8 +293,12 @@ class UserController extends Controller
         //?------------------------ Web
         if ($data->avatar != null) {
             $just_name = explode("/", $data->avatar);
-            if (Storage::disk('image')->exists('avatars/' . $just_name[5])) {
-                $file_old = Storage::path('images/avatars/' . $just_name[5]);
+            // if (Storage::disk('image')->exists('avatars/' . $just_name[5])) {
+            //     $file_old = Storage::path('images/avatars/' . $just_name[5]);
+            //     unlink($file_old);
+            // }
+            if (Storage::disk('image')->exists('avatars/' . $just_name[4])) {
+                $file_old = Storage::path('images/avatars/' . $just_name[4]);
                 unlink($file_old);
             }
         }
