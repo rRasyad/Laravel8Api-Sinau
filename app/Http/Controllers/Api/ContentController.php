@@ -214,8 +214,8 @@ class ContentController extends Controller
                     //     return ($value->reach == 4);
                     // })->reach;
                     // $finishstep === 4 ? $isUnlocked = true : $isUnlocked = false;
-                    $reach = $reach['reach'];
                     $reach ? $isUnlocked = true : $isUnlocked = false;
+                    $reach = $reach['reach'];
                     // $reach ? $isUnlocked = true : $isUnlocked = false;
                 } else {
                     $reach = null;
