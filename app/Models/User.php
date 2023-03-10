@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->hasOne(Xp::class, 'user_id');
     }
 
+    public function streak()
+    {
+        return $this->hasMany(Streak::class, 'user_id');
+    }
+
     /**
      * Get the rank associated with the User
      *
