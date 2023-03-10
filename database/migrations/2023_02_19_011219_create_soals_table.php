@@ -19,7 +19,7 @@ class CreateSoalsTable extends Migration
             $table->integer('unit_id');
             $table->integer('part');
             $table->string('isi_soal');
-            $table->char('keyword_pattern', 10);
+            $table->char('keyword_pattern', 14);
             // $table->timestamps();
         });
     }
