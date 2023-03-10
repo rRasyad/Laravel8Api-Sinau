@@ -24,13 +24,21 @@ class UnitSeeder extends Seeder
             'unit' => 2,
             'description' => "Perkenalan diri: Menanyakan Nama, Asal, Tempat Tinggal"
         ]);
-        // TODO Finish Unit and Matter
-        for ($i = 3; $i <= 5; $i++) {
-            Unit::factory()->create([
-                'mapel' => 'jawa',
-                'unit' => $i,
-                'description' => "Materi bahasa jawa"
-            ]);
-        }
+        // FIXED Finish Unit and Matter
+        Unit::factory()->create([
+            'mapel' => 'jawa',
+            'unit' => 3,
+            'description' => "Mendeskripsikan Barang, Membeli Sesuatu, Angka"
+        ]);
+        Unit::factory()->create([
+            'mapel' => 'jawa',
+            'unit' => 4,
+            'description' => "Berbicara tentang Cuaca, Menanyakan Waktu & Hari "
+        ]);
+        Unit::factory()->create([
+            'mapel' => 'jawa',
+            'unit' => 5,
+            'description' => "Menanyakan Arah & Tempat, Meminta Bantuan"
+        ]);
     }
 }
