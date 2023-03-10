@@ -28,7 +28,7 @@ class UnitSeeder extends Seeder
         Unit::factory()->create([
             'mapel' => 'jawa',
             'unit' => 3,
-            'description' => "Mendeskripsikan Barang, Membeli Sesuatu, Angka"
+            'description' => "Barang-barang, Angka, Membeli Sesuatu"
         ]);
         Unit::factory()->create([
             'mapel' => 'jawa',
