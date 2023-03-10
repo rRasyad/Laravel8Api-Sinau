@@ -55,7 +55,7 @@ class AuthController extends Controller
         ]);
 
         $data = User::where('email', $request->emailOrUser)
-            ->orWhere('namaUser', $request->emailOrUser)->with('xp')->first();
+            ->orWhere('namaUser', $request->emailOrUser)->with('xp')->withCount('streak')->first();
 
         if (!$data || !Hash::check($request->password, $data->password)) {
             return response(['message' => 'Bad cred'], Response::HTTP_UNPROCESSABLE_ENTITY);
