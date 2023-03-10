@@ -100,7 +100,8 @@ class UserController extends Controller
         //?-------------------- Body ---------------------
         // $data = User::where('id', $id)->with('xp', 'rank')->first();//! kurang achievement
         // $data = User::with('xp', 'rank')->find($id);
-        $data = User::with('xp')->find($id);
+        $data = User::with('xp')->withCount(['streak', 'following', 'followers'])->find($id);
+        // $data = User::with('xp')->withCount(['streak', 'following', 'followers'])->find($id);
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
@@ -250,7 +251,7 @@ class UserController extends Controller
                 // }
 
                 //? if use https://api.sinau-bahasa.my.id/avatar/
-                    if (Storage::disk('image')->exists('avatars/' . $just_name[4])) {
+                if (Storage::disk('image')->exists('avatars/' . $just_name[4])) {
                     // echo 'this is exist';
                     $file_old = Storage::path('images/avatars/' . $just_name[4]);
                     unlink($file_old);

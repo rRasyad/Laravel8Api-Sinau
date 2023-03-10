@@ -54,6 +54,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Streak::class, 'user_id');
     }
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'following_id');
+    }
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followers_id');
+    }
 
     /**
      * Get the rank associated with the User
