@@ -15,7 +15,8 @@ class CreateJawabansTable extends Migration
     {
         Schema::create('jawabans', function (Blueprint $table) {
             // $table->id();
-            $table->foreignId('id_soal')->constrained('soals');
+            // $table->foreignId('id_soal')->constrained('soals');
+            $table->foreignId('id_unit');
             $table->string('word');
             $table->char('keyword', 10);
             // $table->boolean('must_include')->default(1);

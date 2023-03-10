@@ -164,13 +164,16 @@ class ContentController extends Controller
         // $quest = Soal::find(39)->load('artiSoal');
 
         $key = explode(" ", $quest['keyword_pattern']);
+        $jawaban = Jawaban::where('id_unit', $currentSession["unit_id"])
+            ->whereIn('keyword', $key)
+            ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
+                ->inRandomOrder()->take(3))->get();
         $response = [
             'message' => 'next session',
             'current_session' => $currentSession['session_current'],
             'score_before' => ($i == 1) ? 'benar' : 'salah',
             'Soal' => $quest,
-            'Jawaban' => Jawaban::whereIn('keyword', $key)
-                ->union(Jawaban::inRandomOrder()->take(3))->get()
+            'Jawaban' => $jawaban->shuffle(),
         ];
         return response()->json($response, 200);
     }

@@ -15,23 +15,45 @@ class JawabanSeeder extends Seeder
      */
     public function run()
     {
+
+        // TODO Finish Jawaban
+
         $d = new Dictionary();
-        $bab1 = $d->vocab['1'];
-        for ($i = 0; $i < count($bab1); $i++) {
+        $U1 = $d->jawaban['U1'];
+        for ($i = 0; $i < count($U1); $i++) {
             Jawaban::factory()->create([
-                'id_soal' => array_keys($d->vocab)[0],
-                'word'      => $bab1[$i][0],
-                'keyword' => $bab1[$i][2],
+                'id_unit' => 1,
+                'word'      => $U1[$i][0],
+                'keyword' => $U1[$i][1],
             ]);
         }
-        $bab2 = $d->vocab['2'];
-        for ($i = 0; $i < count($bab2); $i++) {
+        $U2 = $d->jawaban['U2'];
+        for ($i = 0; $i < count($U2); $i++) {
             Jawaban::factory()->create([
-                'id_soal' => array_keys($d->vocab)[1],
-                'word'      => $bab2[$i][0],
-                'keyword' => $bab2[$i][2],
+                'id_unit' => 2,
+                'word'      => $U2[$i][0],
+                'keyword' => $U2[$i][1],
             ]);
         }
+
+        //? 3
+        // $d = new Dictionary();
+        // $bab1 = $d->vocab['1'];
+        // for ($i = 0; $i < count($bab1); $i++) {
+        //     Jawaban::factory()->create([
+        //         'id_soal' => array_keys($d->vocab)[0],
+        //         'word'      => $bab1[$i][0],
+        //         'keyword' => $bab1[$i][2],
+        //     ]);
+        // }
+        // $bab2 = $d->vocab['2'];
+        // for ($i = 0; $i < count($bab2); $i++) {
+        //     Jawaban::factory()->create([
+        //         'id_soal' => array_keys($d->vocab)[1],
+        //         'word'      => $bab2[$i][0],
+        //         'keyword' => $bab2[$i][2],
+        //     ]);
+        // }
 
         //? 2
         // $bab1_kromo = Dictionary::vocab['kromo']['1'];
