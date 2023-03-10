@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () 
 
     Route::get('symlink', function () {
         $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/Laravel8Api-Sinau/storage/app/public/images/avatars";
-        $link = $_SERVER['DOCUMENT_ROOT'] . "/../api.sinau-bahasa.my.id/avatar";
+        $link = $_SERVER['DOCUMENT_ROOT'] . "/avatar";
         (symlink($target, $link)) ? response()->json("OK.", 200) : response()->json("Gagal.", 404);
     }); //?Ok
 
