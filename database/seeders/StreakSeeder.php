@@ -15,7 +15,7 @@ class StreakSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 28; $i++) {
+        for ($i = 1; $i <= 27; $i++) {
             $streakBesok = $i * 2;
 
             Streak::factory()->create([
@@ -29,6 +29,20 @@ class StreakSeeder extends Seeder
                 'user_id' => $i
             ]);
         }
+        $date = 30;
+        for ($a=1; $a <= 30; $a++) {
+            $besok = $a + 55;
+            Streak::factory()->create([
+                'tanggalStreak' => Carbon::Today()->subDays($date)->toDateString(),
+                'user_id' => 28,
+                'streakBesok' => $besok
+            ]);
+            $date--;
+        }
+        Streak::factory()->create([
+            'tanggalStreak' => Carbon::Today()->toDateString(),
+            'user_id' => 28
+        ]);
 
         // Streak::create([
         //     'tanggalStreak' => Carbon::yesterday()->subDay(1)->toDateString(),
