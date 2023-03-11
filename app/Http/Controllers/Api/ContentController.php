@@ -29,7 +29,9 @@ class ContentController extends Controller
     public function initiation(Request $request)
     {
         $bab = $request->bab;
-        if (!$bab) return response()->json('you must fill bab!');
+        if (!$bab) return response()->json(['message' => 'you must fill bab!'], 404);
+        $unitUser = UnitUser::where([['user_id', $request->user()->id], ['bab_id', $bab]])->first();
+        if (!$unitUser) return response()->json(['message' => "you haven't reached here yet"], 404);
         $find = SoalSession::where('user_id', $request->user()->id)->get();
         foreach ($find as $item) {
             SoalSelectedSession::where('session_id', $item->id)->delete();
