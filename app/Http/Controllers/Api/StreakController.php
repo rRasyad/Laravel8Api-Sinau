@@ -174,12 +174,20 @@ class StreakController extends Controller
         //     return collect(['xpHarian' => $query->xpHarian]);
         // });
 
-        $data = Streak::where('user_id', $id)->latest('tanggalStreak')->get();
+        $bulan = $request->bulan;
+        // $data = Streak::where('user_id', $id)->latest('tanggalStreak')->get();
+        // $data = Streak::where('user_id', $id)->latest('tanggalStreak')->paginate(5)
+        //     ->groupBy(function ($month) {
+        //         return $month->tanggalStreak->format('M');
+        //     });
+        $data = Streak::where('user_id', $id)->whereMonth('tanggalStreak', $bulan)->get();
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
         if ($data->isEmpty()) return Res::autoResponse($data, 'E');
         return Res::autoResponse($data, 'F');
+        // $data = $data->paginate(30);
+        // return new PaginateResource($data);
     }
 
     /**
