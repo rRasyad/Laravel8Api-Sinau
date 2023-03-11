@@ -45,7 +45,6 @@ Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
 Route::get('following/{id}', [FollowController::class, 'following']); //? Ok
 Route::get('followers/{id}', [FollowController::class, 'followers']); //? Ok
 Route::get('content', [ContentController::class, 'content']); //? Ok
-// Route::post('calculation', [ContentController::class, 'calculation']);
 Route::get('achievement', [AchievementController::class, 'achievement']); //? Ok
 // Route::apiResource('ranks', RankController::class)->only(['show']);
 
@@ -61,14 +60,11 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin', 'after.midd
     Route::apiResource('users', UserController::class)->only(['show', 'destroy']); //?OK
     Route::post('users/{id}', [UserController::class, 'update']); //?OK
     Route::post('change-password', [UserController::class, 'changePassword']); //?OK
-    // Route::apiResource('xps', XpController::class)->only(['update']); //?OK
-    // Route::post('xps/{id}', [XpController::class, 'update']); //?OK
     Route::apiResource('streaks', StreakController::class)->only(['show']); //?Ok
     Route::get('follow/{id}', [FollowController::class, 'store']); //? Ok
     Route::get('unfollow/{id}', [FollowController::class, 'destroy']); //? Ok
     Route::get('mapel', [ContentController::class, 'mapel']); //? Ok
     Route::get('quest', [QuestController::class, 'quest']); //? Ok
-    // Route::get('inisiasi-session/{id}', [ContentController::class, 'inisiasi']);
     Route::get('initial-session', [ContentController::class, 'initiation']); //? Ok
     Route::get('next-soal', [ContentController::class, 'nextSession']); //? Ok
 });

@@ -15,11 +15,16 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->name();
+        // $name = $this->faker->firstName() . ' ' . $this->faker->lastName();
+        // $username = str_replace("_"," ", $name);
+        $oneName = explode(" ", $name);
+        // $username = $oneName[0] . $this->faker->randomNumber(2);
         return [
-            'nama' => $this->faker->name(),
-            'namaUser' => $this->faker->unique()->userName(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('admin'),
+            'nama' => $name,
+            'namaUser' => $oneName[0] . $this->faker->randomNumber(2),
+            'email' => Str::lower($oneName[0]) . '@hotmail.com',
+            'password' => Hash::make('user'),
             'remember_token' => Str::random(10),
         ];
     }

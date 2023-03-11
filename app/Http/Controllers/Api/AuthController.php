@@ -19,7 +19,7 @@ class AuthController extends Controller
         //?-------------------- Body ---------------------
         $request->validate([
             'nama'      => 'nullable',
-            'namaUser'  => 'required|unique:users,namaUser',
+            'namaUser'  => 'required|alpha_dash|unique:users,namaUser',
             'email'     => 'nullable|email|unique:users,email',
             'password'  => 'required|confirmed|min:5|max:20',
         ]);
