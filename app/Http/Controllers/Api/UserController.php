@@ -199,8 +199,8 @@ class UserController extends Controller
         $request->validate([
             'avatar'    => 'nullable|image|file|max:1024',
             'nama'      => 'nullable',
-            'namaUser'  => 'nullable|unique:users,namaUser',
-            'email'     => 'nullable|email|unique:users,email',
+            'namaUser'  => 'nullable|alpha_dash|unique:users,namaUser',
+            'email'     => 'nullable|email:rfc,dns|unique:users,email',
             // 'password'  => 'nullable|min:5|max:20'
         ]);
 
