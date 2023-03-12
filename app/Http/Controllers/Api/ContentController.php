@@ -209,7 +209,7 @@ class ContentController extends Controller
             $indexBab = 0;
             foreach ($unitBabs as $unitBab) {
                 $data[$index]['unit_bab'][$indexBab]['id'] = $unitBab->id;
-                $data[$index]['unit_bab'][$indexBab]['url'] = $unitBab->url;
+                // $data[$index]['unit_bab'][$indexBab]['url'] = $unitBab->url;
                 $data[$index]['unit_bab'][$indexBab]['icon'] = $unitBab->icon;
                 $reach = UnitUser::where('bab_id', $unitBab->id)
                     ->where('user_id', $request->user()->id)->first();

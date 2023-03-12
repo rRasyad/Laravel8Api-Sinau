@@ -17,7 +17,7 @@ class CreateUnitBabsTable extends Migration
             $table->id();
             $table->foreignId("unit_id");
             $table->foreignId("part");
-            $table->string("url");
+            // $table->string("url");
             $table->string("icon");
         });
     }
