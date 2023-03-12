@@ -24,7 +24,7 @@ class UnitBabSeeder extends Seeder
                     // 'url' => '/content?jenis=ngoko&unit=' . $a . '&bab=' . $bab,
                     // 'url' => '/initiation-session?bab=' . $bab,
                     'part' => $part,
-                    'url' => 'initial-session?bab=' . $bab,
+                    // 'url' => 'initial-session?bab=' . $bab,
                     'icon' => $a . '_' . $bab . ".jpg"
                 ]);
                 $bab++;
