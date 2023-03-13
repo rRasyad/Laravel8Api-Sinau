@@ -60,6 +60,27 @@ class SoalArtiSeeder extends Seeder
             ]);
         }
 
+        $U3P1 = $dictionary->arti['U3P1'];
+        //? Unit 1 Part 1
+        $soal_id = 167;
+        for ($i = 0; $i < count($U3P1); $i++) {
+            SoalArti::factory()->create([
+                'soal_id' => $soal_id,
+                'index_soal' => 0,
+                'arti' => $U3P1[$i][0],
+            ]);
+            $soal_id++;
+        }
+        // $U3P2 = $dictionary->arti['U3P2'];
+        // //? Unit 2 Part 2
+        // for ($i = 0; $i < count($U3P2); $i++) {
+        //     SoalArti::factory()->create([
+        //         'soal_id' => $U3P2[$i][0],
+        //         'index_soal' => $U3P2[$i][1],
+        //         'arti' => $U3P2[$i][2],
+        //     ]);
+        // }
+
         //? 1
         // $dictionary = new Dictionary();
         // $unit1 = $dictionary->arti['1'];
