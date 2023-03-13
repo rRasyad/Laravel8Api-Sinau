@@ -49,8 +49,6 @@ Route::get('achievement', [AchievementController::class, 'achievement']); //? Ok
 // Route::apiResource('ranks', RankController::class)->only(['show']);
 
 //? System
-Route::get('reset-dailyxp', [XpController::class, 'resetDaily']); //?Ok
-Route::get('reset-weeklyxp', [XpController::class, 'resetWeekly']); //?Ok
 
 // Route::delete('ranks', [RankController::class, 'reset']);
 // Route::apiResource('ranks', RankController::class)->only(['store']); //! must triggered by xp
@@ -79,13 +77,18 @@ Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () 
 
     Route::get('symlink', function () {
         $target = $_SERVER['DOCUMENT_ROOT'] . "/../project/Laravel8Api-Sinau/storage/app/public/images/avatars";
-        $link = $_SERVER['DOCUMENT_ROOT'] . "/../public_html/avatar";
+        $link = $_SERVER['DOCUMENT_ROOT'] . "/../img.sinau-bahasa.my.id/avatar";
         (symlink($target, $link)) ? response()->json("OK.", 200) : response()->json("Gagal.", 404);
     }); //?Ok
 
     Route::get('slinks', function () {
         (Artisan::call('storage:link')) ? response("OK.", 200) : response("Gagal.", 404);
     });
+});
+
+Route::group(['middleware' => ['auth:sanctum', 'ability:system,admin']], function () {
+    Route::get('reset-dailyxp', [XpController::class, 'resetDaily']); //?Ok
+    Route::get('reset-weeklyxp', [XpController::class, 'resetWeekly']); //?Ok
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
