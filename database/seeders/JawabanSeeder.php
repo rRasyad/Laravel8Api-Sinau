@@ -35,6 +35,14 @@ class JawabanSeeder extends Seeder
                 'keyword' => $U2[$i][1],
             ]);
         }
+        $U3 = $d->jawaban['U3'];
+        for ($i = 0; $i < count($U3); $i++) {
+            Jawaban::factory()->create([
+                'id_unit' => 3,
+                'word'      => $U3[$i][0],
+                'keyword' => $U3[$i][1],
+            ]);
+        }
 
         //? 3
         // $d = new Dictionary();

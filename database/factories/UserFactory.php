@@ -15,7 +15,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->name();
+        $name = $this->faker->unique()->name();
         // $name = $this->faker->firstName() . ' ' . $this->faker->lastName();
         // $username = str_replace("_"," ", $name);
         $oneName = explode(" ", $name);

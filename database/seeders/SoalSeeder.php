@@ -60,6 +60,27 @@ class SoalSeeder extends Seeder
             ]);
         }
 
+        $U3P1 = $dictionary->soal['U3P1'];
+        //? Unit 2 part 1
+        for ($i = 0; $i < count($U3P1); $i++) {
+            Soal::factory()->create([
+                'unit_id' => 3,
+                'part' => 1,
+                'isi_soal' => $U3P1[$i][0],
+                'keyword_pattern' => $U3P1[$i][1],
+            ]);
+        }
+        $U3P2 = $dictionary->soal['U3P2'];
+        //? Unit 2 part 2
+        for ($i = 0; $i < count($U3P2); $i++) {
+            Soal::factory()->create([
+                'unit_id' => 3,
+                'part' => 2,
+                'isi_soal' => $U3P2[$i][0],
+                'keyword_pattern' => $U3P2[$i][1],
+            ]);
+        }
+
         //? 5
         // $dictionary = new Dictionary();
         // $part1 = $dictionary->vocab['1'];

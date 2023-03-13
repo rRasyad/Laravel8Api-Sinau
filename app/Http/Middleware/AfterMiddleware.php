@@ -17,7 +17,7 @@ class AfterMiddleware
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-
+        // TODO Tambah Feature Checking Achievement Setiap kali Request
         // Perform action
 
         return $response;

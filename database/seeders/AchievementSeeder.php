@@ -19,6 +19,7 @@ class AchievementSeeder extends Seeder
             Achievement::factory()->create([
                 'name' => 'Xp ' . $xp,
                 'description' => 'Raih ' . $xp . ' xp untuk pertama kali',
+                'image' => 'https://img.sinau-bahasa.my.id/' . ($i + 1) . '.png',
             ]);
             $xp += 200;
         }

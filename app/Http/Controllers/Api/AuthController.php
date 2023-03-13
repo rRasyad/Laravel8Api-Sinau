@@ -64,6 +64,7 @@ class AuthController extends Controller
         // $dToken = null; //? login without token
         //? Below this is Login with token
         if ($data->role == 'admin') $dToken = $data->createToken('Admin', ['admin']);
+        if ($data->role == 'system') $dToken = $data->createToken('System', ['system']);
         else $dToken = $data->createToken('User', ['user']);
 
         //?------------------ Response ---------------------
