@@ -264,7 +264,7 @@ class UserController extends Controller
             $img_name = $id . '_' . time() . '.' . $extension;
             $request->file('avatar')->storeAs('avatars/', $img_name, 'image');
             // $data->avatar = 'https://api.sinau-bahasa.my.id/api/avatar/' . $img_name;
-            $data->avatar = 'https://sinau-bahasa.my.id/avatar/' . $img_name;
+            $data->avatar = 'https://img.sinau-bahasa.my.id/avatar/' . $img_name;
         }
         $data->save();
         return Res::autoResponse($data, 'US');
