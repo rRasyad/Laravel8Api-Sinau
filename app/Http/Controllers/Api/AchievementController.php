@@ -23,6 +23,7 @@ class AchievementController extends Controller
             $data['achievement'][$index]['id'] = $achievement->id;
             $data['achievement'][$index]['achievement_name'] = $achievement->name;
             $data['achievement'][$index]['description'] = $achievement->description;
+            $data['achievement'][$index]['image'] = $achievement->image;
             $achievReached = AchievementUser::where('user_id', $id)->where('achievement_id', $achievement->id)->first();
             $data['achievement'][$index]['isUnlocked'] = ($achievReached) ? true : false;
 

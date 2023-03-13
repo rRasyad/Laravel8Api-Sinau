@@ -17,6 +17,7 @@ class CreateAchievementsTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("description", 256);
+            $table->string("image");
         });
     }
 
