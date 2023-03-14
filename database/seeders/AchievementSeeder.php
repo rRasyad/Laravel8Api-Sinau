@@ -20,6 +20,34 @@ class AchievementSeeder extends Seeder
                 'name' => 'Xp ' . $xp,
                 'description' => 'Raih ' . $xp . ' xp untuk pertama kali',
                 'image' => 'https://img.sinau-bahasa.my.id/' . ($i + 1) . '.png',
+                'required' => $xp,
+            ]);
+            $xp += 200;
+        }
+        for ($i = 0; $i < 10; $i++) {
+            Achievement::factory()->create([
+                'name' => 'Xp ' . $xp,
+                'description' => 'Raih ' . $xp . ' xp untuk pertama kali',
+                'image' => 'https://img.sinau-bahasa.my.id/' . ($i + 1) . '.png',
+                'required' => $xp,
+            ]);
+            $xp += 200;
+        }
+        for ($i = 0; $i < 10; $i++) {
+            Achievement::factory()->create([
+                'name' => 'Xp ' . $xp,
+                'description' => 'Raih ' . $xp . ' xp untuk pertama kali',
+                'image' => 'https://img.sinau-bahasa.my.id/' . ($i + 1) . '.png',
+                'required' => $xp,
+            ]);
+            $xp += 200;
+        }
+        for ($i = 0; $i < 10; $i++) {
+            Achievement::factory()->create([
+                'name' => 'Xp ' . $xp,
+                'description' => 'Raih ' . $xp . ' xp untuk pertama kali',
+                'image' => 'https://img.sinau-bahasa.my.id/' . ($i + 1) . '.png',
+                'required' => $xp,
             ]);
             $xp += 200;
         }

@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Xp;
 use App\Helpers\Res;
 use App\Models\User;
-use Intervention\Image\Facades\Image;
+use App\Models\Follow;
+use App\Models\Streak;
+use App\Models\UnitUser;
+use App\Models\SoalSession;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\UserPublicResource;
@@ -106,6 +111,38 @@ class UserController extends Controller
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
         return new UserPublicResource($data);
+    }
+
+    public function search(Request $request)
+    {
+        $value = $request->s;
+        if (!$value) return response()->json(['message' => 'you must fill value!'], 404);
+        $data = User::where('nama', 'LIKE', '%' . $value . '%')
+            ->orWhere('namaUser', 'LIKE', '%' . $value . '%')
+            ->orWhere('email', 'LIKE', '%' . $value . '%');
+        if ($data->get()->isEmpty()) return Res::autoResponse($data, 'E');
+
+        $r = [];
+        $count = 0;
+        $index = 0;
+        foreach ($data->get() as $key) {
+            if ($key['role'] !== 'system') {
+                $r[$index]['id'] = $key['id'];
+                $r[$index]['avatar'] = $key['avatar'];
+                $r[$index]['nama'] = $key['nama'];
+                $r[$index]['namaUser'] = $key['namaUser'];
+                $count++;
+            }
+            $index++;
+        }
+        if (!$r) return Res::autoResponse($data, 'E');
+        return response()->json([
+            'status' => 200,
+            'message' => 'data found',
+            'data_count' => $count,
+            // 'data' => $data->get(['id', 'avatar', 'nama', 'namaUser']),
+            'data' => $r,
+        ]);
     }
 
     public function getAvatar($filename)
@@ -303,6 +340,16 @@ class UserController extends Controller
                 unlink($file_old);
             }
         }
+        Xp::where('user_id', $id)->delete();
+        UnitUser::where('user_id', $id)->delete();
+        $Streak = Streak::where('user_id', $id);
+        (!$Streak || $Streak->isEmpty()) ?: $Streak->delete();
+        $SoalSession = SoalSession::where('user_id', $id);
+        (!$SoalSession || $SoalSession->isEmpty()) ?: $SoalSession->delete();
+        $Follow = Follow::where('followers_id', $id);
+        (!$Follow || $Follow->isEmpty()) ?: $Follow->delete();
+        $Follow = Follow::where('following_id', $id);
+        (!$Follow || $Follow->isEmpty()) ?: $Follow->delete();
 
         // $data->tokens()->where('tokenable_id', $data->$id)->delete(); //? alt delete token by userId
         DB::table('personal_access_tokens')->where('tokenable_id', $id)->delete(); //? delete token

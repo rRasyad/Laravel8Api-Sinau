@@ -15,9 +15,9 @@ class XpFactory extends Factory
     {
         return [
             'user_id' => $this->faker->randomNumber(2, true),
-            'xpHarian' => $this->faker->randomNumber(4, true),
-            'xpMingguan' => $this->faker->randomNumber(4, true),
-            'totalXp' => $this->faker->randomNumber(4, true),
+            'xpHarian' => $this->faker->numberBetween(0, 500),
+            'xpMingguan' => $this->faker->numberBetween(500, 1000),
+            'totalXp' => $this->faker->numberBetween(1000, 4000),
         ];
     }
 }
