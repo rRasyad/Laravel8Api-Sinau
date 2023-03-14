@@ -40,6 +40,7 @@ Route::get('unauthorized', function () {
 
 Route::get('a', [ContentController::class, 'a']);
 Route::get('public-user/{id}', [UserController::class, 'showPublic']); //?OK
+Route::get('search', [UserController::class, 'search']); //?OK
 Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
 Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
 Route::get('following/{id}', [FollowController::class, 'following']); //? Ok

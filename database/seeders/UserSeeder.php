@@ -36,11 +36,14 @@ class UserSeeder extends Seeder
 
         User::factory()->create([
             'role'      => 'system',
+            'nama'      => 'system',
             'namaUser'  => 'sySTem',
+            'email'     => 'system@sinau-bahasa.my.id',
             'password'  => Hash::make('ischez'),
         ]);
 
         User::factory()->create([
+            'nama'      => 'StickyPiston',
             'namaUser'  => 'fikry',
             'email'     => 'fikry@sinau-bahasa.my.id',
             'password'  => Hash::make('fikry'),

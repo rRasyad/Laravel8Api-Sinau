@@ -15,8 +15,8 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->unique()->name();
-        // $name = $this->faker->firstName() . ' ' . $this->faker->lastName();
+        // $name = $this->faker->unique()->name();
+        $name = $this->faker->unique()->firstName() . ' ' . $this->faker->lastName();
         // $username = str_replace("_"," ", $name);
         $oneName = explode(" ", $name);
         // $username = $oneName[0] . $this->faker->randomNumber(2);
