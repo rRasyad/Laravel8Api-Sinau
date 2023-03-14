@@ -18,6 +18,7 @@ class CreateAchievementUserTable extends Migration
         Schema::create('achievement_user', function (Blueprint $table) {
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Achievement::class);
+            $table->boolean('isAchieved')->default(false);
             // $table->timestamps();
         });
     }
