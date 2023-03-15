@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin', 'after.midd
     Route::get('mapel', [ContentController::class, 'mapel']); //? Ok
     Route::get('quest', [QuestController::class, 'quest']); //? Ok
     Route::get('initial-session', [ContentController::class, 'initiation']); //? Ok
-    Route::get('next-soal', [ContentController::class, 'nextSession']); //? Ok
+    Route::post('next-soal', [ContentController::class, 'nextSession']); //? Ok
 });
 
 //? Admin
