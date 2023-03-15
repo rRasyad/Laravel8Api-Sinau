@@ -35,20 +35,56 @@ class UserSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'role'      => 'system',
-            'nama'      => 'system',
-            'namaUser'  => 'sySTem',
-            'email'     => 'system@sinau-bahasa.my.id',
-            'password'  => Hash::make('ischez'),
-        ]);
-
-        User::factory()->create([
-            'nama'      => 'StickyPiston',
-            'namaUser'  => 'fikry',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/3.png',
+            'nama'      => 'Fikry',
+            'namaUser'  => 'StickyPiston',
             'email'     => 'fikry@sinau-bahasa.my.id',
             'password'  => Hash::make('fikry'),
         ]);
 
-        User::factory(24)->create();
+        User::factory()->create([
+            'role'      => 'system',
+            'nama'      => 'Tetra',
+            'namaUser'  => 'Tetra',
+            'email'     => 'tetra@sinau-bahasa.my.id',
+            'password'  => Hash::make('ischez'),
+        ]);
+
+        User::factory()->create([
+            'nama'      => 'Reza',
+            'namaUser'  => 'NamkuReza',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/5.png',
+        ]);
+        User::factory()->create([
+            'nama'      => 'Robert',
+            'namaUser'  => 'RobertLyøn',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/6.png',
+        ]);
+        User::factory()->create([
+            'nama'      => 'Rizqie',
+            'namaUser'  => 'Pussay',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/7.png',
+        ]);
+        User::factory()->create([
+            'nama'      => 'Aryo',
+            'namaUser'  => 'Mosa',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/8.png',
+        ]);
+        User::factory()->create([
+            'nama'      => 'Roe',
+            'namaUser'  => 'Kizu',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/9.png',
+        ]);
+        User::factory()->create([
+            'nama'      => 'Gavin',
+            'namaUser'  => 'GavinNamku',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/10.png',
+        ]);
+        User::factory()->create([
+            'nama'      => 'Viri',
+            'namaUser'  => 'ÆÜGH',
+            'avatar'    => 'https://img.sinau-bahasa.my.id/avatar/11.gif',
+        ]);
+        User::factory(17)->create();
     }
 }
