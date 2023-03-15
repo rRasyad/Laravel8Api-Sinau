@@ -92,7 +92,7 @@ class UserController extends Controller
         // $data = User::find($id)->with('xp')->first();
         // $data = User::find($id)->xp()->first();
         // $data = User::with('xp')->find($id)->first();
-        $data = User::where('id', $id)->with('xp')->first();
+        $data = User::where('id', $id)->with('xp')->withCount('streak')->first();
         // $data = User::find($id,['avatar']);
 
         //?------------------ Response ---------------------
