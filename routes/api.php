@@ -40,7 +40,6 @@ Route::get('unauthorized', function () {
 
 Route::get('a', [ContentController::class, 'a']);
 Route::get('public-user/{id}', [UserController::class, 'showPublic']); //?OK
-Route::get('search', [UserController::class, 'search']); //?OK
 Route::get('avatar/{filename}', [UserController::class, 'getAvatar']); //?OK
 Route::apiResource('xps', XpController::class)->only(['show']); //?Ok
 Route::get('following/{id}', [FollowController::class, 'following']); //? Ok
@@ -56,6 +55,7 @@ Route::get('achievement', [AchievementController::class, 'achievement']); //? Ok
 
 //? Private
 Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin', 'after.middleware']], function () {
+    Route::get('search', [UserController::class, 'search']); //?OK
     Route::apiResource('users', UserController::class)->only(['show', 'destroy']); //?OK
     Route::post('users/{id}', [UserController::class, 'update']); //?OK
     Route::post('change-password', [UserController::class, 'changePassword']); //?OK

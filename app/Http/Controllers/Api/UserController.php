@@ -84,16 +84,20 @@ class UserController extends Controller
     public function show(Request $request, $id)
     {
         //?---------- Check Role (Self & Admin) ----------
-        if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
-            return response(['message' => 'Access denied!'], Response::HTTP_FORBIDDEN);
-        }
+        // if ($request->user()->id != $id && !$request->user()->tokenCan('admin')) {
+        //     return response(['message' => 'Access denied!'], Response::HTTP_FORBIDDEN);
+        // }
 
         //?-------------------- Body ---------------------
         // $data = User::find($id)->with('xp')->first();
         // $data = User::find($id)->xp()->first();
         // $data = User::with('xp')->find($id)->first();
-        $data = User::where('id', $id)->with('xp')->withCount('streak')->first();
+        $data = User::with('xp')->withCount(['streak', 'following', 'followers'])->find($id);
         // $data = User::find($id,['avatar']);
+        $data['isFriend'] = (Follow::where([
+            ['followers_id', $request->user()->id],
+            ['following_id', $id]
+        ])->exists()) ? true : false;
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
@@ -131,6 +135,10 @@ class UserController extends Controller
                 $r[$index]['avatar'] = $key['avatar'];
                 $r[$index]['nama'] = $key['nama'];
                 $r[$index]['namaUser'] = $key['namaUser'];
+                $r[$index]['isFriend'] = (Follow::where([
+                    ['followers_id', $request->user()->id],
+                    ['following_id', $key['id']]
+                ])->exists()) ? true : false;
                 $count++;
             }
             $index++;
