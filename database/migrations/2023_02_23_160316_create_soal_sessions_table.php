@@ -18,7 +18,9 @@ class CreateSoalSessionsTable extends Migration
             $table->foreignId("user_id")->constrained('users', 'id')->unique();
             $table->foreignId("unit_id")->constrained('units', 'id');
             $table->foreignId("bab_id")->constrained('unit_babs', 'id');
-            $table->foreignId("part");
+            $table->integer("part");
+            $table->integer("score_current")->default(0);
+            $table->boolean("evaluasi")->default(false);
             $table->integer("session_max");
             $table->integer("session_current");
             $table->dateTime("session_expire");

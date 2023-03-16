@@ -64,7 +64,6 @@ class ContentController extends Controller
             return response()->json(['message' => 'your session has expired'], 400);
         }
 
-        $i = 1;
         if ((isset($request['jawaban']) && $request['jawaban']) &&
             (isset($request['id_soal']) && $request['id_soal'])
         ) {
@@ -73,43 +72,63 @@ class ContentController extends Controller
                 ['id', $request->id_soal],
                 ['keyword_pattern', $request->jawaban]
             ])->exists()) {
-                $i = 0;
+                if (!$currentSession['evaluasi']) $currentSession['score_current'] += 1;
                 $response['score_before'] = 'salah';
             } else {
+                if (!$currentSession['evaluasi']) $currentSession['score_current'] += 5;
+                SoalSelectedSession::where([
+                    ['soal_id', $request->id_soal],
+                    ['session_id', $currentSession["id"]]
+                ])->update(["benar" => true]);
                 $response['score_before'] = 'benar';
             }
 
-            $selected = SoalSelectedSession::where([
-                ['soal_id', $request->id_soal],
-                ['session_id', $currentSession["id"]]
-            ]);
-            if ($selected) {
-                $selected->update(["benar" => $i]);
-            }
-
-            $selectedExists = SoalSelectedSession::where('session_id', $currentSession["id"])
-                ->get()
-                ->filter(function ($value, $key) {
-                    return ($value->benar == 0);
-                })->count();
-            if ($selectedExists % 2) {
-                $currentSession["session_current"] += 1;
-            }
+            // $selectedExists = SoalSelectedSession::where('session_id', $currentSession["id"])
+            //     ->get()
+            //     ->filter(function ($value, $key) {
+            //         return ($value->benar == 0);
+            //     })->count();
+            // if ($selectedExists % 2) {
+            //     $currentSession["session_current"] += 1;
+            // }
         }
 
         if ($currentSession["session_current"] >= $currentSession["session_max"]) {
             $get = SoalSelectedSession::where('session_id', $currentSession["id"])->get();
-            $salah = $get->filter(function ($value, $key) {
-                return ($value->benar == 0);
-            })->count();
+            // $salah = $get->filter(function ($value, $key) {
+            //     return ($value->benar == 0);
+            // })->count();
             $benar = $get->filter(function ($value, $key) {
                 return ($value->benar == 1);
             })->count();
             // error_log($benar);
-            $score = $salah + ($benar * 5);
+            // $score = $salah + ($benar * 5);
+
+            if ($benar < 10) {
+                $currentSession['evaluasi'] = 1;
+                $currentSession->save();
+                $soals = SoalSelectedSession::where([
+                    ['session_id', $currentSession["id"]],
+                    ['benar', 0]
+                ])->get()->random()['soal_id'];
+                $quest = Soal::find($soals)->load('artiSoal');
+
+                $key = explode(" ", $quest['keyword_pattern']);
+                $jawaban = Jawaban::where('id_unit', $currentSession["unit_id"])
+                    ->whereIn('keyword', $key)
+                    ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
+                        ->inRandomOrder()->take(3))->get();
+                $response['message'] = 'next session';
+                $response['current_session'] = $currentSession['session_current'];
+                $response['Soal'] = $quest;
+                $response['Jawaban'] = $jawaban->shuffle();
+                return response()->json($response, 200);
+            }
+
+            $score = $currentSession['score_current'];
             $Xp = XpController::autoUpdate($request->user()->id, $score);
             $putusan = 'Score kurang dari 40, Xp ditambahkan';
-            if ($score >= 40) {
+            if ($currentSession['score_current'] >= 40) {
                 $raw = UnitUser::where([
                     ['user_id', $request->user()->id],
                     ['bab_id', $currentSession['bab_id']]
@@ -148,7 +167,7 @@ class ContentController extends Controller
                 ], 200);
         }
 
-        $currentSession["session_current"] = $currentSession["session_current"] + $i;
+        $currentSession["session_current"] = $currentSession["session_current"] + 1;
         $currentSession->save();
 
         $soals = Soal::where([
