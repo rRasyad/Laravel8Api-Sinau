@@ -11,7 +11,7 @@ class Follow extends BaseModel
 
     public function following()
     {
-        return $this->hasOne(User::class, 'id', 'following_id')->select('id', 'nama', 'avatar');
+        return $this->hasOne(User::class, 'id', 'following_id')->select('id', 'nama', 'namaUser', 'avatar');
     }
     public function followingXp()
     {

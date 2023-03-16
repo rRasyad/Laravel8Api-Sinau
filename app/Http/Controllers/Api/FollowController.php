@@ -104,7 +104,7 @@ class FollowController extends Controller
         $id = User::where('namaUser',$id)->first();
         if (!$id) return Res::autoResponse($id, 'NF'); //? data not found
         $data = Follow::where('following_id', $id->id)
-            ->with(['followers:id,nama,avatar', 'followersXp:user_id,totalXp'])
+            ->with(['followers:id,nama,namaUser,avatar', 'followersXp:user_id,totalXp'])
             ->get();
 
         //?------------------ Response ---------------------
