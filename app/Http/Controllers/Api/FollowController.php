@@ -89,7 +89,9 @@ class FollowController extends Controller
     public function following($id)
     {
         //?-------------------- Body --------------------- alternative on Model
-        $data = Follow::where('followers_id', $id)->with(['following', 'followingXp'])->get();
+        $id = User::where('namaUser',$id)->first();
+        if (!$id) return Res::autoResponse($id, 'NF'); //? data not found
+        $data = Follow::where('followers_id', $id->id)->with(['following', 'followingXp'])->get();
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
@@ -99,8 +101,10 @@ class FollowController extends Controller
     public function followers($id)
     {
         //?-------------------- Body --------------------- alternative 2
-        $data = Follow::where('following_id', $id)
-            ->with(['followers:id,nama,avatar', 'followersXp:user_id,totalXp'])
+        $id = User::where('namaUser',$id)->first();
+        if (!$id) return Res::autoResponse($id, 'NF'); //? data not found
+        $data = Follow::where('following_id', $id->id)
+            ->with(['followers:id,nama,namaUser,avatar', 'followersXp:user_id,totalXp'])
             ->get();
 
         //?------------------ Response ---------------------
