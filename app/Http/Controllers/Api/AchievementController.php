@@ -12,16 +12,18 @@ class AchievementController extends Controller
 {
     public function achievement(Request $request)
     {
-        $id = $request->id;
-        if (!$id) return response()->json('you must fill id!');
+        $namaUser = $request->namaUser;
+        if (!$namaUser) return response()->json('you must fill namaUser!', 404);
         $limit = (int)$request->limit;
         ($limit)
             ? $achievements = Achievement::take($limit)->get()
             : $achievements = Achievement::all();
-        $totalXp = User::find($id)->xp->totalXp;
+        $user = User::where('namaUser', $namaUser)->first();
+        if (!$user) return response()->json('user not found!', 404);
+        $totalXp = $user->xp->totalXp;
         $index = 0;
         foreach ($achievements as $achievement) {
-            $data['user_id'] = $id;
+            $data['user_id'] = $user->id;
             $data['achievement'][$index]['id'] = $achievement->id;
             $data['achievement'][$index]['achievement_name'] = $achievement->name;
             $data['achievement'][$index]['description'] = $achievement->description;

@@ -92,15 +92,15 @@ class UserController extends Controller
         // $data = User::find($id)->with('xp')->first();
         // $data = User::find($id)->xp()->first();
         // $data = User::with('xp')->find($id)->first();
-        $data = User::with('xp')->withCount(['streak', 'following', 'followers'])->find($id);
+        $data = User::where('namaUser', $id)->with('xp')->withCount(['streak', 'following', 'followers'])->first();
         // $data = User::find($id,['avatar']);
+        if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
         $data['isFriend'] = (Follow::where([
             ['followers_id', $request->user()->id],
             ['following_id', $id]
         ])->exists()) ? true : false;
 
         //?------------------ Response ---------------------
-        if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
         return Res::autoResponse($data, 'F');
     }
 
