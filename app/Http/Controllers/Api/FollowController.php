@@ -86,26 +86,35 @@ class FollowController extends Controller
         return Res::autoResponse($data, 'AS');
     }
 
-    public function following($id)
+    public function following(Request $request, $id)
     {
         //?-------------------- Body --------------------- alternative on Model
-        $id = User::where('namaUser',$id)->first();
+        $id = User::where('namaUser', $id)->first();
         if (!$id) return Res::autoResponse($id, 'NF'); //? data not found
-        $data = Follow::where('followers_id', $id->id)->with(['following', 'followingXp'])->get();
+        $data = Follow::where('followers_id', $id->id)->with(['following', 'followingXp']);
+
+        $limit = (int)$request->limit;
+        ($limit)
+            ? $data = $data->take($limit)->get()
+            : $data = $data->get();
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
         if ($data->isEmpty()) return Res::autoResponse($data, 'E');
         return Res::autoResponse($data, 'F');
     }
-    public function followers($id)
+    public function followers(Request $request, $id)
     {
         //?-------------------- Body --------------------- alternative 2
-        $id = User::where('namaUser',$id)->first();
+        $id = User::where('namaUser', $id)->first();
         if (!$id) return Res::autoResponse($id, 'NF'); //? data not found
         $data = Follow::where('following_id', $id->id)
-            ->with(['followers:id,nama,namaUser,avatar', 'followersXp:user_id,totalXp'])
-            ->get();
+            ->with(['followers:id,nama,namaUser,avatar', 'followersXp:user_id,totalXp']);
+
+        $limit = (int)$request->limit;
+        ($limit)
+            ? $data = $data->take($limit)->get()
+            : $data = $data->get();
 
         //?------------------ Response ---------------------
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
