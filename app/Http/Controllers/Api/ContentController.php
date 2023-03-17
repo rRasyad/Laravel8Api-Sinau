@@ -39,17 +39,37 @@ class ContentController extends Controller
         }
 
         $unitBab = UnitBab::find($bab);
-        SoalSession::create([
+        $currentSession = SoalSession::create([
             'user_id' => $request->user()->id,
             'unit_id' => $unitBab->unit_id,
             'bab_id' => $bab,
             'part' => $unitBab->part,
             'session_max' => 10,
-            'session_current' => 0,
+            'session_current' => 1,
             'session_expire' => now()->addHour(1)
         ]);
 
-        return response()->json(['message' => 'Initiation Created'], 200);
+        $soals = Soal::where([
+            ['part', $currentSession->part],
+            ['unit_id', $currentSession->unit_id]
+        ])->with('artiSoal')->get()->random();
+
+        SoalSelectedSession::create([
+            'session_id' => $currentSession["id"],
+            'soal_id' => $soals['id'],
+        ]);
+
+        $key = explode(" ", $soals['keyword_pattern']);
+        $jawaban = Jawaban::where('id_unit', $currentSession["unit_id"])
+            ->whereIn('keyword', $key)
+            ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
+                ->inRandomOrder()->take(3))->get();
+        $response['message'] = 'Initiation Created';
+        $response['current_session'] = $currentSession['session_current'];
+        $response['Soal'] = $soals;
+        $response['Jawaban'] = $jawaban->shuffle();
+
+        return response()->json($response, 200);
     }
 
     public function nextSession(Request $request)
@@ -72,10 +92,16 @@ class ContentController extends Controller
                 ['id', $request->id_soal],
                 ['keyword_pattern', $request->jawaban]
             ])->exists()) {
-                if (!$currentSession['evaluasi']) $currentSession['score_current'] += 1;
+                if (!$currentSession['evaluasi']) {
+                    $currentSession['score_current'] += 1;
+                    $currentSession->save();
+                }
                 $response['score_before'] = 'salah';
             } else {
-                if (!$currentSession['evaluasi']) $currentSession['score_current'] += 5;
+                if (!$currentSession['evaluasi']) {
+                    $currentSession['score_current'] += 5;
+                    $currentSession->save();
+                }
                 SoalSelectedSession::where([
                     ['soal_id', $request->id_soal],
                     ['session_id', $currentSession["id"]]
@@ -120,6 +146,7 @@ class ContentController extends Controller
                         ->inRandomOrder()->take(3))->get();
                 $response['message'] = 'next session';
                 $response['current_session'] = $currentSession['session_current'];
+                $response['evaluasi'] = $currentSession['evaluasi'];
                 $response['Soal'] = $quest;
                 $response['Jawaban'] = $jawaban->shuffle();
                 return response()->json($response, 200);
@@ -197,6 +224,7 @@ class ContentController extends Controller
                 ->inRandomOrder()->take(3))->get();
         $response['message'] = 'next session';
         $response['current_session'] = $currentSession['session_current'];
+        $response['evaluasi'] = $currentSession['evaluasi'];
         $response['Soal'] = $quest;
         $response['Jawaban'] = $jawaban->shuffle();
         // $response = [
