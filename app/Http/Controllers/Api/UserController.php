@@ -97,10 +97,10 @@ class UserController extends Controller
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
         $data['isFollowing'] = (Follow::where([
             ['followers_id', $request->user()->id],
-            ['following_id', $id],
+            ['following_id', $data->id],
         ])->exists()) ? true : false;
         $data['isFollower'] = (Follow::where([
-            ['followers_id', $id],
+            ['followers_id', $data->id],
             ['following_id', $request->user()->id],
         ])->exists()) ? true : false;
 

@@ -108,9 +108,7 @@ class ContentController extends Controller
         ]; //? Default Response
 
         //? if request Contain id_soal & jawaban
-        if ((isset($request['jawaban']) && $request['jawaban']) &&
-            (isset($request['id_soal']) && $request['id_soal'])
-        ) {
+        if (isset($request['id_soal']) && $request['id_soal']) {
             if (!Soal::where([
                 ['id', $request->id_soal],
                 ['keyword_pattern', $request->jawaban]
