@@ -21,6 +21,7 @@ use App\Helpers\Functions as Func;
 
 class ContentController extends Controller
 {
+
     public function a()
     {
         $dick = new Dictionary;
@@ -49,6 +50,17 @@ class ContentController extends Controller
             'session_expire' => now()->addHour(1)
         ]);
 
+        $response = [
+            "message" => null,
+            "soal_before" => null,
+            "current_session" => $currentSession['session_current'],
+            "max_session" => $currentSession["session_max"],
+            "evaluasi" => 0,
+            "jumlah_evaluasi" => null,
+            "soal" => null,
+            "jawaban" => null,
+        ];
+
         $soals = Soal::where([
             ['part', $currentSession->part],
             ['unit_id', $currentSession->unit_id]
@@ -66,8 +78,8 @@ class ContentController extends Controller
                 ->inRandomOrder()->take(3))->get();
         $response['message'] = 'Initiation Created';
         $response['current_session'] = $currentSession['session_current'];
-        $response['Soal'] = $soals;
-        $response['Jawaban'] = $jawaban->shuffle();
+        $response['soal'] = $soals;
+        $response['jawaban'] = $jawaban->shuffle();
 
         return response()->json($response, 200);
     }
@@ -84,6 +96,17 @@ class ContentController extends Controller
             return response()->json(['message' => 'your session has expired'], 400);
         }
 
+        $response = [
+            "message" => null,
+            "soal_before" => null,
+            "current_session" => $currentSession['session_current'],
+            "max_session" => $currentSession["session_max"],
+            "evaluasi" => $currentSession['evaluasi'],
+            "jumlah_evaluasi" => null,
+            "soal" => null,
+            "jawaban" => null,
+        ];
+
         if ((isset($request['jawaban']) && $request['jawaban']) &&
             (isset($request['id_soal']) && $request['id_soal'])
         ) {
@@ -96,7 +119,7 @@ class ContentController extends Controller
                     $currentSession['score_current'] += 1;
                     $currentSession->save();
                 }
-                $response['score_before'] = 'salah';
+                $response['soal_before'] = 'salah';
             } else {
                 if (!$currentSession['evaluasi']) {
                     $currentSession['score_current'] += 5;
@@ -106,7 +129,7 @@ class ContentController extends Controller
                     ['soal_id', $request->id_soal],
                     ['session_id', $currentSession["id"]]
                 ])->update(["benar" => true]);
-                $response['score_before'] = 'benar';
+                $response['soal_before'] = 'benar';
             }
 
             // $selectedExists = SoalSelectedSession::where('session_id', $currentSession["id"])
@@ -145,10 +168,10 @@ class ContentController extends Controller
                     ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
                         ->inRandomOrder()->take(3))->get();
                 $response['message'] = 'next session';
-                $response['current_session'] = $currentSession['session_current'];
                 $response['evaluasi'] = $currentSession['evaluasi'];
-                $response['Soal'] = $quest;
-                $response['Jawaban'] = $jawaban->shuffle();
+                $response['jumlah_evaluasi'] = $currentSession["session_max"] - $benar;
+                $response['soal'] = $quest;
+                $response['jawaban'] = $jawaban->shuffle();
                 return response()->json($response, 200);
             }
 
@@ -188,7 +211,7 @@ class ContentController extends Controller
                     'message' => 'session ends',
                     'score_akhir' => $score,
                     'message_xp' => $Xp['message'],
-                    'Xp' => $Xp['xp'],
+                    'xp' => $Xp['xp'],
                     'status_streak' => $Xp['streak'],
                     'putusan' => $putusan,
                 ], 200);
@@ -223,10 +246,8 @@ class ContentController extends Controller
             ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
                 ->inRandomOrder()->take(3))->get();
         $response['message'] = 'next session';
-        $response['current_session'] = $currentSession['session_current'];
-        $response['evaluasi'] = $currentSession['evaluasi'];
-        $response['Soal'] = $quest;
-        $response['Jawaban'] = $jawaban->shuffle();
+        $response['soal'] = $quest;
+        $response['jawaban'] = $jawaban->shuffle();
         // $response = [
         //     'message' => 'next session',
         //     'current_session' => $currentSession['session_current'],
