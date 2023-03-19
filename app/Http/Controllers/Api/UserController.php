@@ -95,9 +95,13 @@ class UserController extends Controller
         $data = User::where('namaUser', $id)->with('xp')->withCount(['streak', 'following', 'followers'])->first();
         // $data = User::find($id,['avatar']);
         if (!$data) return Res::autoResponse($data, 'NF'); //? data not found
-        $data['isFriend'] = (Follow::where([
+        $data['isFollowing'] = (Follow::where([
             ['followers_id', $request->user()->id],
-            ['following_id', $id]
+            ['following_id', $id],
+        ])->exists()) ? true : false;
+        $data['isFollower'] = (Follow::where([
+            ['followers_id', $id],
+            ['following_id', $request->user()->id],
         ])->exists()) ? true : false;
 
         //?------------------ Response ---------------------
@@ -135,9 +139,13 @@ class UserController extends Controller
                 $r[$index]['avatar'] = $key['avatar'];
                 $r[$index]['nama'] = $key['nama'];
                 $r[$index]['namaUser'] = $key['namaUser'];
-                $r[$index]['isFriend'] = (Follow::where([
+                $r[$index]['isFollowing'] = (Follow::where([
                     ['followers_id', $request->user()->id],
                     ['following_id', $key['id']]
+                ])->exists()) ? true : false;
+                $r[$index]['isFollower'] = (Follow::where([
+                    ['followers_id', $key['id']],
+                    ['following_id', $request->user()->id]
                 ])->exists()) ? true : false;
                 $count++;
             }
