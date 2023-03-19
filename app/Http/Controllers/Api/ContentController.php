@@ -51,15 +51,16 @@ class ContentController extends Controller
         ]);
 
         $response = [
-            "message" => null,
+            "message" => 'Initiation Created',
             "soal_before" => null,
             "current_session" => $currentSession['session_current'],
             "max_session" => $currentSession["session_max"],
             "evaluasi" => 0,
             "jumlah_evaluasi" => null,
+            "current_evaluasi" => null,
             "soal" => null,
             "jawaban" => null,
-        ];
+        ]; //? Default Response
 
         $soals = Soal::where([
             ['part', $currentSession->part],
@@ -76,8 +77,6 @@ class ContentController extends Controller
             ->whereIn('keyword', $key)
             ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
                 ->inRandomOrder()->take(3))->get();
-        $response['message'] = 'Initiation Created';
-        $response['current_session'] = $currentSession['session_current'];
         $response['soal'] = $soals;
         $response['jawaban'] = $jawaban->shuffle();
 
@@ -90,11 +89,11 @@ class ContentController extends Controller
 
         if (!$currentSession) {
             return response()->json(['message' => 'session not found'], 404);
-        }
+        } //? if Session Not Found
 
         if ($currentSession["session_expire"] <= now()) {
             return response()->json(['message' => 'your session has expired'], 400);
-        }
+        } //? if Session Expired
 
         $response = [
             "message" => null,
@@ -102,29 +101,30 @@ class ContentController extends Controller
             "current_session" => $currentSession['session_current'],
             "max_session" => $currentSession["session_max"],
             "evaluasi" => $currentSession['evaluasi'],
-            "jumlah_evaluasi" => null,
+            "current_evaluasi" => null,
+            "jumlah_evaluasi" => $currentSession['jumlah_evaluasi'],
             "soal" => null,
             "jawaban" => null,
-        ];
+        ]; //? Default Response
 
+        //? if request Contain id_soal & jawaban
         if ((isset($request['jawaban']) && $request['jawaban']) &&
             (isset($request['id_soal']) && $request['id_soal'])
         ) {
-
             if (!Soal::where([
                 ['id', $request->id_soal],
                 ['keyword_pattern', $request->jawaban]
-            ])->exists()) {
+            ])->exists()) { //? if Soal wrong
                 if (!$currentSession['evaluasi']) {
                     $currentSession['score_current'] += 1;
                     $currentSession->save();
-                }
+                } //? if Evaluasi not true
                 $response['soal_before'] = 'salah';
-            } else {
+            } else { //? if Soal correct
                 if (!$currentSession['evaluasi']) {
                     $currentSession['score_current'] += 5;
                     $currentSession->save();
-                }
+                } //? if Evaluasi not true
                 SoalSelectedSession::where([
                     ['soal_id', $request->id_soal],
                     ['session_id', $currentSession["id"]]
@@ -142,6 +142,7 @@ class ContentController extends Controller
             // }
         }
 
+        //? if session Max
         if ($currentSession["session_current"] >= $currentSession["session_max"]) {
             $get = SoalSelectedSession::where('session_id', $currentSession["id"])->get();
             // $salah = $get->filter(function ($value, $key) {
@@ -149,13 +150,19 @@ class ContentController extends Controller
             // })->count();
             $benar = $get->filter(function ($value, $key) {
                 return ($value->benar == 1);
-            })->count();
-            // error_log($benar);
-            // $score = $salah + ($benar * 5);
+            })->count(); //? get benar
 
-            if ($benar < 10) {
+            //? if benar < 10 & evaluasi false
+            if ($benar < 10 && !$currentSession['evaluasi']) {
                 $currentSession['evaluasi'] = 1;
+                $currentSession['jumlah_evaluasi'] = $currentSession["session_max"] - $benar;
                 $currentSession->save();
+            } elseif ($benar >= 10 && $currentSession['evaluasi']) {
+                $currentSession['evaluasi'] = 0;
+                $currentSession->save();
+            }
+
+            if ($currentSession['evaluasi']) {
                 $soals = SoalSelectedSession::where([
                     ['session_id', $currentSession["id"]],
                     ['benar', 0]
@@ -167,9 +174,10 @@ class ContentController extends Controller
                     ->whereIn('keyword', $key)
                     ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
                         ->inRandomOrder()->take(3))->get();
-                $response['message'] = 'next session';
+                $response['message'] = 'evaluasi session';
                 $response['evaluasi'] = $currentSession['evaluasi'];
-                $response['jumlah_evaluasi'] = $currentSession["session_max"] - $benar;
+                $response['current_evaluasi'] = $currentSession["session_max"] - $benar;
+                $response['jumlah_evaluasi'] = $currentSession['jumlah_evaluasi'];
                 $response['soal'] = $quest;
                 $response['jawaban'] = $jawaban->shuffle();
                 return response()->json($response, 200);

@@ -21,6 +21,7 @@ class CreateSoalSessionsTable extends Migration
             $table->integer("part");
             $table->integer("score_current")->default(0);
             $table->boolean("evaluasi")->default(false);
+            $table->integer("jumlah_evaluasi")->nullable();
             $table->integer("session_max");
             $table->integer("session_current");
             $table->dateTime("session_expire");
