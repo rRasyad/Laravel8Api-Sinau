@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\Dictionary;
 use App\Helpers\Res;
 use App\Models\Soal;
 use App\Models\Unit;
+use App\Models\Quest;
 use App\Models\Jawaban;
 use App\Models\UnitBab;
 use App\Models\UnitUser;
+use App\Models\QuestUser;
+use App\Helpers\Dictionary;
 use App\Models\SoalSession;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Helpers\Functions as Func;
 use Illuminate\Support\Facades\DB;
 use App\Models\SoalSelectedSession;
 use App\Http\Controllers\Controller;
 use Facade\FlareClient\Http\Response;
 use App\Http\Resources\ContentResource;
-use App\Helpers\Functions as Func;
 
 class ContentController extends Controller
 {
@@ -98,7 +100,7 @@ class ContentController extends Controller
         $response = [
             "message" => null,
             "soal_before" => null,
-            "current_session" => $currentSession['session_current'],
+            "current_session" => null,
             "max_session" => $currentSession["session_max"],
             "evaluasi" => $currentSession['evaluasi'],
             "current_evaluasi" => null,
@@ -251,6 +253,7 @@ class ContentController extends Controller
             ->whereIn('keyword', $key)
             ->union(Jawaban::where('id_unit', $currentSession["unit_id"])
                 ->inRandomOrder()->take(3))->get();
+        $response['current_session'] = $currentSession["session_current"];
         $response['message'] = 'next session';
         $response['soal'] = $quest;
         $response['jawaban'] = $jawaban->shuffle();
