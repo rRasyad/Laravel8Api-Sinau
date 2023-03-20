@@ -217,6 +217,7 @@ class ContentController extends Controller
             return response()
                 ->json([
                     'message' => 'session ends',
+                    'soal_before' => $response['soal_before'],
                     'score_akhir' => $score,
                     'message_xp' => $Xp['message'],
                     'xp' => $Xp['xp'],
